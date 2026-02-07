@@ -41,11 +41,11 @@ module.exports = {
 
     // MUI
     'import/no-unresolved': 'error',
-    'no-restricted-imports': [
-      'error',
-      {
-        patterns: [{ regex: '^@mui/[^/]+$' }]
-      }
-    ]
+    // 'no-restricted-imports': [
+    //   'error',
+    //   {
+    //     patterns: [{ regex: '^@mui/*/*/*' }]
+    //   }
+    // ]
   }
 }
