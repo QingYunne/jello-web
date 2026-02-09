@@ -43,6 +43,7 @@ const RAW_RUNTIME_STATE =
           ["jello-web", "workspace:."],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:18.3.1"],\
+          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
           ["vite", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:4.5.14"]\
         ],\
         "linkType": "SOFT"\
@@ -3245,6 +3246,7 @@ const RAW_RUNTIME_STATE =
           ["jello-web", "workspace:."],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:18.3.1"],\
+          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
           ["vite", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:4.5.14"]\
         ],\
         "linkType": "SOFT"\
@@ -4636,6 +4638,15 @@ const RAW_RUNTIME_STATE =
           ["possible-typed-array-names", "npm:1.1.0"],\
           ["reflect.getprototypeof", "npm:1.0.10"],\
           ["typed-array-length", "npm:1.0.7"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["typescript", [\
+      ["patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5", {\
+        "packageLocation": "../../../.yarn/berry/cache/typescript-patch-6fda4d02cf-10c0.zip/node_modules/typescript/",\
+        "packageDependencies": [\
+          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
         ],\
         "linkType": "HARD"\
       }]\
