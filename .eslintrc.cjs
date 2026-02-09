@@ -8,7 +8,17 @@ module.exports = {
     'plugin:import/recommended'
   ],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-  settings: { react: { version: '18.2' } },
+  settings: {
+    react: { version: '18.2' },
+    'import/resolver': {
+      alias: {
+        map: [
+          ['~', './src']
+        ],
+        extensions: ['.js', '.jsx', '.json']
+      }
+    }
+  },
   plugins: ['react', 'react-hooks', 'react-refresh', 'import'],
   rules: {
     // React
