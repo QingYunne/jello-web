@@ -8,7 +8,15 @@ module.exports = {
     'plugin:import/recommended'
   ],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-  settings: { react: { version: '18.2' } },
+  settings: {
+    react: { version: '18.2' },
+    'import/resolver': {
+      alias: {
+        map: [['~', './src']],
+        extensions: ['.js', '.jsx', '.json']
+      }
+    }
+  },
   plugins: ['react', 'react-hooks', 'react-refresh', 'import'],
   rules: {
     // React
@@ -38,9 +46,10 @@ module.exports = {
     'comma-spacing': 1,
     'arrow-spacing': 1,
     'no-undef': 'error',
+    'eol-last': ['error', 'always'],
 
     // MUI
-    'import/no-unresolved': 'error',
+    'import/no-unresolved': 'error'
     // 'no-restricted-imports': [
     //   'error',
     //   {
