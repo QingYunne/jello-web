@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 
 import { ReactComponent as TrelloLogo } from '~/assets/trello.svg'
 
@@ -29,12 +30,12 @@ export default function AppBar() {
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: 2,
+        paddingX: 2,
         overflow: 'auto'
       }}
     >
       <Box
         sx={{
-          height: '100%',
           display: 'flex',
           alignItems: 'center',
           gap: 2
@@ -67,7 +68,9 @@ export default function AppBar() {
           <Starred />
           <Templates />
 
-          <Button variant="outlined">Create</Button>
+          <Button variant="outlined" startIcon={<LibraryAddIcon />}>
+            Create
+          </Button>
         </Box>
       </Box>
       <Box
