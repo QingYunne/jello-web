@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box'
+import ListColumn from './ListColumn'
 
 export default function BoardContent() {
   return (
@@ -7,13 +8,13 @@ export default function BoardContent() {
         bgcolor: (theme) =>
           theme.palette.mode === 'dark' ? '#34495e' : '#1976d2',
         width: '100%',
-        height: (theme) =>
-          `calc(100vh - ${theme.jello.appBarHeight} - ${theme.jello.boardBarHeight})`,
-        display: 'flex',
-        alignItems: 'center'
+        height: (theme) => {
+          return theme.jello.boardContentHeight
+        },
+        p: '10px 0'
       }}
     >
-      Board Content
+      <ListColumn />
     </Box>
   )
 }
