@@ -8,33 +8,16 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 
-export default function Card({ temporaryHideMedia }) {
-  if (temporaryHideMedia) {
-    return (
-      <MuiCard
-        sx={{
-          cursor: 'pointer',
-          boxShadow: '0 1px 1px rgba(0, 0, 0, 0.2)',
-          overflow: 'unset'
-        }}
-      >
-        <CardContent sx={{ p: 1.5, '&:last-child': { p: 1.5 } }}>
-          <Typography>Lizard</Typography>
-        </CardContent>
-        <CardActions sx={{ p: '0 4px 8px' }}>
-          <Button size="small" startIcon={<GroupIcon />}>
-            20
-          </Button>
-          <Button size="small" startIcon={<CommentIcon />}>
-            15
-          </Button>
-          <Button size="small" startIcon={<AttachmentIcon />}>
-            10
-          </Button>
-        </CardActions>
-      </MuiCard>
-    )
-  }
+export default function Card({ card }) {
+  const { title, memberIds, comments, attachments } = card || {}
+
+  const actionsItems = [
+    { data: memberIds, icon: <GroupIcon /> },
+    { data: comments, icon: <CommentIcon /> },
+    { data: attachments, icon: <AttachmentIcon /> }
+  ]
+
+  const visibleActions = actionsItems.filter((item) => item.data?.length > 0)
   return (
     <MuiCard
       sx={{
@@ -43,25 +26,19 @@ export default function Card({ temporaryHideMedia }) {
         overflow: 'unset'
       }}
     >
-      <CardMedia
-        sx={{ height: 140 }}
-        image="https://cdn-media.sforum.vn/storage/app/media/anh-dep-16.jpg"
-        title="green iguana"
-      />
+      {card?.cover && <CardMedia sx={{ height: 140 }} image={card.cover} />}
       <CardContent sx={{ p: 1.5, '&:last-child': { p: 1.5 } }}>
-        <Typography>Lizard</Typography>
+        <Typography>{title ? title : 'untitled'}</Typography>
       </CardContent>
-      <CardActions sx={{ p: '0 4px 8px' }}>
-        <Button size="small" startIcon={<GroupIcon />}>
-          20
-        </Button>
-        <Button size="small" startIcon={<CommentIcon />}>
-          15
-        </Button>
-        <Button size="small" startIcon={<AttachmentIcon />}>
-          10
-        </Button>
-      </CardActions>
+      {visibleActions.length > 0 && (
+        <CardActions sx={{ p: '0 4px 8px' }}>
+          {visibleActions.map((item, index) => (
+            <Button key={index} size="small" startIcon={item.icon}>
+              {item.data.length}
+            </Button>
+          ))}
+        </CardActions>
+      )}
     </MuiCard>
   )
 }

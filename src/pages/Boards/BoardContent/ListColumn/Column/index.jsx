@@ -1,12 +1,4 @@
 import { useState } from 'react'
-import AddCardIcon from '@mui/icons-material/AddCard'
-import Cloud from '@mui/icons-material/Cloud'
-import ContentCopy from '@mui/icons-material/ContentCopy'
-import ContentCut from '@mui/icons-material/ContentCut'
-import ContentPaste from '@mui/icons-material/ContentPaste'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import DragHandleIcon from '@mui/icons-material/DragHandle'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
@@ -17,12 +9,23 @@ import MenuItem from '@mui/material/MenuItem'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import ListCard from './ListCard'
+import { mapOrder } from '~/utils/sorts'
+import AddCardIcon from '@mui/icons-material/AddCard'
+import Cloud from '@mui/icons-material/Cloud'
+import ContentCopy from '@mui/icons-material/ContentCopy'
+import ContentCut from '@mui/icons-material/ContentCut'
+import ContentPaste from '@mui/icons-material/ContentPaste'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import DragHandleIcon from '@mui/icons-material/DragHandle'
+// import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 
-export default function Column() {
+export default function Column({ column }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => setAnchorEl(event.currentTarget)
   const handleClose = () => setAnchorEl(null)
+  const orderedCard = mapOrder(column.cards, column.cardOrderIds, '_id')
   return (
     <Box
       sx={{
@@ -51,11 +54,11 @@ export default function Column() {
           variant="h6"
           sx={{ fontWeight: 'bold', cursor: 'pointer', fontSize: '1rem' }}
         >
-          Column Title
+          {column?.title ? column.title : 'untitled'}
         </Typography>
         <Box>
           <Tooltip title="More options">
-            <ExpandMoreIcon
+            <MoreHorizIcon
               id="basic-column-dropdown"
               aria-controls={open ? 'basic-menu-column-dropdown' : undefined}
               aria-haspopup="true"
@@ -112,7 +115,7 @@ export default function Column() {
           </Menu>
         </Box>
       </Box>
-      <ListCard />
+      <ListCard cards={orderedCard} />
       {/* Box Column Footer */}
       <Box
         sx={{

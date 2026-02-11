@@ -4,7 +4,7 @@ import PostAddIcon from '@mui/icons-material/PostAdd'
 
 import Column from './Column'
 
-export default function ListColumn() {
+export default function ListColumn({ columns }) {
   return (
     <Box
       sx={{
@@ -17,8 +17,9 @@ export default function ListColumn() {
         '&::-webkit-scrollbar-track': { m: 2 }
       }}
     >
-      <Column />
-      <Column />
+      {columns?.map((column) => (
+        <Column key={column._id} column={column} />
+      ))}
 
       <Box
         sx={{

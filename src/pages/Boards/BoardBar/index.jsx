@@ -10,6 +10,7 @@ import AddToDriveIcon from '@mui/icons-material/AddToDrive'
 import BoltIcon from '@mui/icons-material/Bolt'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import { capitalizeFirstLetter } from '~/utils/formatter'
 
 const MENU_STYLE = {
   color: 'white',
@@ -25,7 +26,7 @@ const MENU_STYLE = {
   }
 }
 
-export default function BoardBar() {
+export default function BoardBar({ board }) {
   return (
     <Box
       sx={{
@@ -51,13 +52,13 @@ export default function BoardBar() {
       >
         <Chip
           icon={<DashboardIcon />}
-          label="Trello Web Project"
+          label={board?.title ? board.title : 'untitled'}
           clickable
           sx={MENU_STYLE}
         />
         <Chip
           icon={<VpnLockIcon />}
-          label="Public / Private Workspaces"
+          label={capitalizeFirstLetter(board?.type)}
           clickable
           sx={MENU_STYLE}
         />
