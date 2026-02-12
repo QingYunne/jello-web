@@ -15,6 +15,7 @@ import { mapOrder } from '~/utils/sorts'
 import ListColumn from './ListColumn'
 import Column from './ListColumn/Column'
 import Card from './ListColumn/Column/ListCard/Card'
+import { cloneDeep } from 'lodash'
 
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
@@ -35,16 +36,15 @@ export default function BoardContent({ board }) {
   const sensors = useSensors(mouseSensor, touchSensor)
   const [orderedColumns, setOrderedColumns] = useState([])
   // cùng 1 thời điểm chỉ có 1 phần từ đang kéo
-  const [activeDragItemId, setActiveDragItemId] = useState([])
-  const [activeDragItemType, setActiveDragItemType] = useState([])
-  const [activeDragItemData, setActiveDragItemData] = useState([])
+  const [activeDragItemId, setActiveDragItemId] = useState(null)
+  const [activeDragItemType, setActiveDragItemType] = useState(null)
+  const [activeDragItemData, setActiveDragItemData] = useState(null)
 
   useEffect(() => {
     setOrderedColumns(mapOrder(board.columns, board.columnOrderIds, '_id'))
   }, [board])
 
   const handleDragStart = (e) => {
-    console.log('Handle drag start: ', e)
     setActiveDragItemId(e?.active?.id)
     setActiveDragItemType(
       e?.active?.data?.current?.columnId
@@ -54,12 +54,85 @@ export default function BoardContent({ board }) {
     setActiveDragItemData(e?.active?.data?.current)
   }
 
-  const handleDragEnd = (e) => {
-    console.log('activeDragItemId', activeDragItemId)
-    console.log('activeDragItemType', activeDragItemType)
-    console.log('activeDragItemData', activeDragItemData)
+  const findColumnByCardId = (cardId) => {
+    return orderedColumns.find((col) =>
+      col?.cards?.map((card) => card._id)?.includes(cardId)
+    )
+  }
 
-    // console.log('handle drag end: ', e)
+  const handleDragOver = (e) => {
+    // console.log('HandleDragOver', e)
+    if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) return
+    const { active, over } = e
+    if (!active || !over) return
+    const {
+      id: activeDraggingCardId,
+      data: { current: activeDraggingCardData }
+    } = active
+    const { id: overCardId } = over
+
+    // Find Card's column
+    const activeColumn = findColumnByCardId(activeDraggingCardId)
+    const overColumn = findColumnByCardId(overCardId)
+    if (!activeColumn || !overColumn) return
+
+    setOrderedColumns((prev) => {
+      const overCardIndex = overColumn?.cards?.findIndex(
+        (card) => card._id === overCardId
+      )
+      let newCardIndex
+      const isBelowOverItem =
+        active.rect.current.translated &&
+        active.rect.current.translated.top > over.rect.top + over.rect.height
+
+      const modifier = isBelowOverItem ? 1 : 0
+
+      newCardIndex =
+        overCardIndex >= 0
+          ? overCardIndex + modifier
+          : overColumn?.cards?.length + 1
+
+      const nextColumns = cloneDeep(prev)
+      const nextActiveColumn = nextColumns.find(
+        (col) => col._id === activeColumn._id
+      )
+      const nextOverColumn = nextColumns.find(
+        (col) => col._id === overColumn._id
+      )
+
+      if (nextActiveColumn) {
+        nextActiveColumn.cards = nextActiveColumn.cards.filter(
+          (card) => card._id !== activeDraggingCardId
+        )
+        nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(
+          (card) => card._id
+        )
+      }
+      if (nextOverColumn) {
+        nextOverColumn.cards = nextOverColumn.cards.filter(
+          (card) => card._id !== activeDraggingCardId
+        )
+
+        nextOverColumn.cards = nextOverColumn.cards.toSpliced(
+          newCardIndex,
+          0,
+          activeDraggingCardData
+        )
+        nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
+          (card) => card._id
+        )
+      }
+      return nextColumns
+    })
+  }
+
+  const handleDragEnd = (e) => {
+    if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
+      // console.log('Tạm thời chưa xử lý')
+
+      return
+    }
+
     const { active, over } = e
 
     // Drag vào vùng ko hợp lệ => return
@@ -83,6 +156,10 @@ export default function BoardContent({ board }) {
     setActiveDragItemType(null)
   }
 
+  // console.log('activeDragItemId', activeDragItemId)
+  // console.log('activeDragItemType', activeDragItemType)
+  // console.log('activeDragItemData', activeDragItemData)
+
   const dropAnimation = {
     sideEffects: defaultDropAnimationSideEffects({
       styles: { active: { opacity: '0.5' } }
@@ -91,7 +168,9 @@ export default function BoardContent({ board }) {
 
   return (
     <DndContext
+      collisionDetection={closestCorners}
       onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
       sensors={sensors}
     >
