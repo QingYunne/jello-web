@@ -10,5 +10,10 @@ export default defineConfig({
     alias: {
       '~': '/src'
     }
+  },
+  server: {
+    host: '0.0.0.0', // Cho phép truy cập từ network
+    port: 5173, // Port mặc định của Vite
+    strictPort: true
   }
 })
