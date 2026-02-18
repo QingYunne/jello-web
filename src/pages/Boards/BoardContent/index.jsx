@@ -51,7 +51,7 @@ export default function BoardContent({ board }) {
   const lastOverId = useRef(null)
 
   useEffect(() => {
-    setOrderedColumns(mapOrder(board.columns, board.columnOrderIds, '_id'))
+    setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
   }, [board])
 
   const handleDragStart = (e) => {
