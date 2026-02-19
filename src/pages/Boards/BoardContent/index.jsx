@@ -1,26 +1,23 @@
 import {
   DndContext,
-  MouseSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
   DragOverlay,
-  defaultDropAnimationSideEffects,
   closestCorners,
-  pointerWithin,
-  rectIntersection,
+  defaultDropAnimationSideEffects,
   getFirstCollision,
-  closestCenter
+  pointerWithin,
+  useSensor,
+  useSensors
 } from '@dnd-kit/core'
+import { MouseSensor, TouchSensor } from '~/customLibraries/DndKitSensors'
 import { arrayMove } from '@dnd-kit/sortable'
 import Box from '@mui/material/Box'
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { cloneDeep, isEmpty } from 'lodash'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { generatePlaceholderCard } from '~/utils/formatter'
 import { mapOrder } from '~/utils/sorts'
 import ListColumn from './ListColumn'
 import Column from './ListColumn/Column'
 import Card from './ListColumn/Column/ListCard/Card'
-import { cloneDeep, isEmpty } from 'lodash'
-import { generatePlaceholderCard } from '~/utils/formatter'
 
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
