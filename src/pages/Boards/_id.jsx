@@ -4,7 +4,12 @@ import AppBar from '~/components/AppBar'
 import BoardBar from './BoardBar'
 import BoardContent from './BoardContent'
 // import { mockData } from '~/apis/mock-data'
-import { fetchBoardDetailsAPI } from '~/apis'
+import {
+  createNewCardAPI,
+  createNewColumnAPI,
+  fetchBoardDetailsAPI
+} from '~/apis'
+import { mockData } from '~/apis/mock-data'
 
 export default function Board() {
   const [board, setBoard] = useState(null)
@@ -14,12 +19,30 @@ export default function Board() {
     fetchBoardDetailsAPI(boardId).then((board) => setBoard(board))
   }, [])
 
+  const createNewColumn = async (column) => {
+    const createdColumn = await createNewColumnAPI({
+      ...column,
+      boardId: board._id
+    })
+  }
+
+  const createNewCard = async (card) => {
+    const createdCard = await createNewCardAPI({
+      ...card,
+      boardId: board._id
+    })
+  }
+
   return (
     <>
       <Container disableGutters maxWidth="false" sx={{ height: '100vh' }}>
         <AppBar />
-        <BoardBar board={board} />
-        <BoardContent board={board} />
+        <BoardBar board={mockData.board} />
+        <BoardContent
+          board={mockData.board}
+          createNewColumn={createNewColumn}
+          createNewCard={createNewCard}
+        />
       </Container>
     </>
   )

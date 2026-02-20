@@ -27,7 +27,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 
 import { toast } from 'react-toastify'
 
-export default function Column({ column }) {
+export default function Column({ column, createNewCard }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => setAnchorEl(event.currentTarget)
@@ -37,12 +37,16 @@ export default function Column({ column }) {
   const toggleOpenCreateCardForm = () =>
     setOpenCreateCardForm(!openCreateCardForm)
 
-  const createCard = () => {
+  const createCard = async () => {
     if (!newCardTitle) {
       toast.error('Please enter card title!', { position: 'bottom-right' })
       return
     }
     console.log(newCardTitle)
+    const newCardData = { title: newCardTitle, columnId: column._id }
+    await createNewCard(newCardData)
+    toggleOpenCreateCardForm()
+    setNewCardTitle('')
   }
 
   const {
