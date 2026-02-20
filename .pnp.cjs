@@ -49,6 +49,7 @@ const RAW_RUNTIME_STATE =
           ["lodash", "npm:4.17.23"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:18.3.1"],\
+          ["react-toastify", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:9.1.3"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
           ["vite", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:4.5.14"],\
           ["vite-plugin-svgr", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:3.3.0"]\
@@ -2203,6 +2204,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["clsx", [\
+      ["npm:1.2.1", {\
+        "packageLocation": "../../../.yarn/berry/cache/clsx-npm-1.2.1-77792dc182-10c0.zip/node_modules/clsx/",\
+        "packageDependencies": [\
+          ["clsx", "npm:1.2.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:2.1.1", {\
         "packageLocation": "../../../.yarn/berry/cache/clsx-npm-2.1.1-96125b98be-10c0.zip/node_modules/clsx/",\
         "packageDependencies": [\
@@ -3982,6 +3990,7 @@ const RAW_RUNTIME_STATE =
           ["lodash", "npm:4.17.23"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:18.3.1"],\
+          ["react-toastify", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:9.1.3"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
           ["vite", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:4.5.14"],\
           ["vite-plugin-svgr", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:3.3.0"]\
@@ -4809,6 +4818,33 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../.yarn/berry/cache/react-is-npm-19.2.4-9fb594121c-10c0.zip/node_modules/react-is/",\
         "packageDependencies": [\
           ["react-is", "npm:19.2.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["react-toastify", [\
+      ["npm:9.1.3", {\
+        "packageLocation": "../../../.yarn/berry/cache/react-toastify-npm-9.1.3-2f82dd0b41-10c0.zip/node_modules/react-toastify/",\
+        "packageDependencies": [\
+          ["react-toastify", "npm:9.1.3"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:9.1.3", {\
+        "packageLocation": "./.yarn/__virtual__/react-toastify-virtual-e5fc0064b9/4/.yarn/berry/cache/react-toastify-npm-9.1.3-2f82dd0b41-10c0.zip/node_modules/react-toastify/",\
+        "packageDependencies": [\
+          ["@types/react", "npm:18.3.28"],\
+          ["@types/react-dom", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:18.3.7"],\
+          ["clsx", "npm:1.2.1"],\
+          ["react", "npm:18.3.1"],\
+          ["react-dom", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:18.3.1"],\
+          ["react-toastify", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:9.1.3"]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react",\
+          "react-dom",\
+          "react"\
         ],\
         "linkType": "HARD"\
       }]\

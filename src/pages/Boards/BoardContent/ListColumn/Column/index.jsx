@@ -25,6 +25,8 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 
+import { toast } from 'react-toastify'
+
 export default function Column({ column }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -37,7 +39,7 @@ export default function Column({ column }) {
 
   const createCard = () => {
     if (!newCardTitle) {
-      console.error('Please enter Column Titlte')
+      toast.error('Please enter card title!', { position: 'bottom-right' })
       return
     }
     console.log(newCardTitle)

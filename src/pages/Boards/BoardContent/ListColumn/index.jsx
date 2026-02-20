@@ -8,6 +8,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 
 import Column from './Column'
 
@@ -19,10 +20,9 @@ export default function ListColumn({ columns }) {
 
   const createColumn = () => {
     if (!newColumnTitle) {
-      console.error('Please enter Column Titlte')
+      toast.error('Please enter column title!')
       return
     }
-    console.log(newColumnTitle)
   }
   return (
     <SortableContext
@@ -118,7 +118,7 @@ export default function ListColumn({ columns }) {
               }}
             >
               <Button
-                // onClick={}
+                onClick={createColumn}
                 variant="contained"
                 color="success"
                 size="small"
