@@ -42,7 +42,7 @@ export default function Column({ column, createNewCard }) {
       toast.error('Please enter card title!', { position: 'bottom-right' })
       return
     }
-    console.log(newCardTitle)
+
     const newCardData = { title: newCardTitle, columnId: column._id }
     await createNewCard(newCardData)
     toggleOpenCreateCardForm()
