@@ -68,7 +68,7 @@ export default function Column({ column, createNewCard }) {
     opacity: isDragging ? 0.5 : undefined
   }
 
-  const orderedCard = mapOrder(column.cards, column.cardOrderIds, '_id')
+  const orderedCard = column?.cards
 
   return (
     <div ref={setNodeRef} style={dndKitColumnStyles} {...attributes}>

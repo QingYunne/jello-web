@@ -27,7 +27,9 @@ const ACTIVE_DRAG_ITEM_TYPE = {
 export default function BoardContent({
   board,
   createNewColumn,
-  createNewCard
+  createNewCard,
+  moveColumns,
+  moveCardFromTheSameColumn
 }) {
   // const pointerSensor = useSensor(PointerSensor, {
   //   activationConstraint: { distance: 10 }
@@ -52,7 +54,7 @@ export default function BoardContent({
   const lastOverId = useRef(null)
 
   useEffect(() => {
-    setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
+    setOrderedColumns(board?.columns)
   }, [board])
 
   const handleDragStart = (e) => {
@@ -232,17 +234,10 @@ export default function BoardContent({
   const handleDragEnd = (e) => {
     const { active, over } = e
     if (!active || !over) return
-    // const {
-    //   id: activeDraggingCardId,
-    //   data: { current: activeDraggingCardData }
-    // } = active
-    // const { id: overCardId } = over
 
     // Drag vào vùng ko hợp lệ => return
 
     if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
-      // console.log('Tạm thời chưa xử lý')
-
       const { active, over } = e
       if (!active || !over) return
       const {
@@ -287,16 +282,23 @@ export default function BoardContent({
           newCardIndex
         )
 
+        const dndOrderedCardIds = dndOrderedCards.map((c) => c._id)
+
         setOrderedColumns((prevColumns) => {
           const nextColumns = cloneDeep(prevColumns)
 
           const targetColumn = nextColumns.find((c) => c._id === overColumn._id)
 
           targetColumn.cards = dndOrderedCards
-          targetColumn.cardOrderIds = dndOrderedCards.map((c) => c._id)
+          targetColumn.cardOrderIds = dndOrderedCardIds
 
           return nextColumns
         })
+        moveCardFromTheSameColumn(
+          dndOrderedCardIds,
+          dndOrderedCards,
+          oldColumnWhenDraggingCard._id
+        )
       }
     }
 
@@ -317,9 +319,8 @@ export default function BoardContent({
       )
       // swap thứ tự các icon
       const dndOrderedColumnIds = dndOrderedColumns.map((c) => c._id)
-      // console.log('dndOrderedColumns:', dndOrderedColumns)
-      // console.log('dndOrderedColumnIds:', dndOrderedColumnIds)
       setOrderedColumns(dndOrderedColumns)
+      moveColumns(dndOrderedColumnIds, dndOrderedColumns)
     }
 
     setActiveDragItemId(null)
