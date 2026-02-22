@@ -9,6 +9,7 @@ import {
   createNewCardAPI,
   createNewColumnAPI,
   fetchBoardDetailsAPI,
+  moveCardToDifferentColumnAPI,
   updateBoardDetailsAPI,
   updateColumnDetailsAPI
 } from '~/apis'
@@ -65,8 +66,13 @@ export default function Board() {
       (col) => col._id === createdCard.columnId
     )
     if (foundColumn) {
-      foundColumn.cards.push(createdCard)
-      foundColumn.cardOrderIds.push(createdCard._id)
+      if (foundColumn.cards.some((card) => card.FE_PlaceholderCard)) {
+        foundColumn.cards = [createdCard]
+        foundColumn.cardOrderIds = [createdCard._id]
+      } else {
+        foundColumn.cards.push(createdCard)
+        foundColumn.cardOrderIds.push(createdCard._id)
+      }
       setBoard(newBoard)
     }
   }
@@ -81,7 +87,7 @@ export default function Board() {
     setBoard(newBoard)
   }
 
-  const moveCardFromTheSameColumn = async (
+  const moveCardToTheSameColumn = async (
     dndOrderedCardIds,
     dndOrderedCards,
     columnId
@@ -96,6 +102,32 @@ export default function Board() {
       })
       setBoard(newBoard)
     }
+  }
+
+  const moveCardToDifferentColumn = async (
+    currentCardId,
+    prevColumnId,
+    nextColumnId,
+    dndOrderedColumns
+  ) => {
+    const dndOrderedColumnIds = dndOrderedColumns.map((col) => col._id)
+    const newBoard = { ...board }
+    newBoard.columns = dndOrderedColumns
+    newBoard.columnOrderIds = dndOrderedColumnIds
+    let prevCardOrderIds = dndOrderedColumns.find(
+      (c) => c._id === prevColumnId
+    )?.cardOrderIds
+    if (prevCardOrderIds[0].includes('placeholder-card')) prevCardOrderIds = []
+
+    await moveCardToDifferentColumnAPI(currentCardId, {
+      prevColumnId,
+      prevCardOrderIds,
+      nextColumnId,
+      nextCardOrderIds: dndOrderedColumns.find((c) => c._id === nextColumnId)
+        ?.cardOrderIds
+    })
+
+    setBoard(newBoard)
   }
 
   if (!board) {
@@ -126,7 +158,8 @@ export default function Board() {
           createNewColumn={createNewColumn}
           createNewCard={createNewCard}
           moveColumns={moveColumns}
-          moveCardFromTheSameColumn={moveCardFromTheSameColumn}
+          moveCardToTheSameColumn={moveCardToTheSameColumn}
+          moveCardToDifferentColumn={moveCardToDifferentColumn}
         />
       </Container>
     </>

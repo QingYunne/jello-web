@@ -29,7 +29,8 @@ export default function BoardContent({
   createNewColumn,
   createNewCard,
   moveColumns,
-  moveCardFromTheSameColumn
+  moveCardToTheSameColumn,
+  moveCardToDifferentColumn
 }) {
   // const pointerSensor = useSensor(PointerSensor, {
   //   activationConstraint: { distance: 10 }
@@ -77,7 +78,8 @@ export default function BoardContent({
     active,
     activeColumn,
     activeDraggingCardId,
-    activeDraggingCardData
+    activeDraggingCardData,
+    triggerFromDragEnd = false
   ) => {
     setOrderedColumns((prevColumns) => {
       const overCardIndex = overColumn?.cards?.findIndex(
@@ -140,7 +142,14 @@ export default function BoardContent({
           (card) => card._id
         )
       }
-      console.log('nextColumns: ', nextColumns)
+      if (triggerFromDragEnd) {
+        moveCardToDifferentColumn(
+          activeDraggingCardId,
+          oldColumnWhenDraggingCard._id,
+          nextOverColumn._id,
+          nextColumns
+        )
+      }
 
       return nextColumns
     })
@@ -265,7 +274,8 @@ export default function BoardContent({
           active,
           activeColumn,
           activeDraggingCardId,
-          activeDraggingCardData
+          activeDraggingCardData,
+          true
         )
       } else {
         // Kéo thả card trong cùng column
@@ -294,7 +304,7 @@ export default function BoardContent({
 
           return nextColumns
         })
-        moveCardFromTheSameColumn(
+        moveCardToTheSameColumn(
           dndOrderedCardIds,
           dndOrderedCards,
           oldColumnWhenDraggingCard._id
