@@ -12,18 +12,30 @@ import { toast } from 'react-toastify'
 
 import Column from './Column'
 
-export default function ListColumn({ columns }) {
+export default function ListColumn({
+  columns,
+  createNewColumn,
+  createNewCard
+}) {
   const [openCreateColumnForm, setOpenCreateColumnForm] = useState(false)
   const [newColumnTitle, setNewColumnTitle] = useState('')
   const toggleOpenCreateColumnForm = () =>
     setOpenCreateColumnForm(!openCreateColumnForm)
 
-  const createColumn = () => {
+  const createColumn = async () => {
     if (!newColumnTitle) {
       toast.error('Please enter column title!')
       return
     }
+    const newColumnData = {
+      title: newColumnTitle
+    }
+    await createNewColumn(newColumnData)
+
+    toggleOpenCreateColumnForm()
+    setNewColumnTitle('')
   }
+
   return (
     <SortableContext
       items={columns.map((c) => c?._id)}
@@ -41,7 +53,11 @@ export default function ListColumn({ columns }) {
         }}
       >
         {columns?.map((column) => (
-          <Column key={column._id} column={column} />
+          <Column
+            key={column._id}
+            column={column}
+            createNewCard={createNewCard}
+          />
         ))}
 
         {!openCreateColumnForm ? (

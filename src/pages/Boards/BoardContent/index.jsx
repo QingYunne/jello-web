@@ -24,7 +24,13 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
-export default function BoardContent({ board }) {
+export default function BoardContent({
+  board,
+  createNewColumn,
+  createNewCard,
+  moveColumns,
+  moveCardFromTheSameColumn
+}) {
   // const pointerSensor = useSensor(PointerSensor, {
   //   activationConstraint: { distance: 10 }
   // })
@@ -48,7 +54,7 @@ export default function BoardContent({ board }) {
   const lastOverId = useRef(null)
 
   useEffect(() => {
-    setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
+    setOrderedColumns(board?.columns)
   }, [board])
 
   const handleDragStart = (e) => {
@@ -116,11 +122,12 @@ export default function BoardContent({ board }) {
           (card) => card._id !== activeDraggingCardId
         )
 
+        // Cập nhật column id trong card
         const rebuildActiveDraggingCardData = {
-          ...activeDraggingCardData
+          ...activeDraggingCardData,
+          columnId: overColumn._id
         }
 
-        // Cập nhật column id trong card
         nextOverColumn.cards = nextOverColumn.cards.toSpliced(
           newCardIndex,
           0,
@@ -130,8 +137,7 @@ export default function BoardContent({ board }) {
           (card) => !card.FE_PlaceholderCard
         )
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
-          (card) => card._id,
-          { ...activeDraggingCardData, columnId: overColumn._id }
+          (card) => card._id
         )
       }
       console.log('nextColumns: ', nextColumns)
@@ -159,7 +165,13 @@ export default function BoardContent({ board }) {
 
     // Find Card's column
     const activeColumn = findColumnByCardId(activeDraggingCardId)
-    const overColumn = findColumnByCardId(overCardId)
+    let overColumn = findColumnByCardId(overCardId)
+
+    // Nếu không tìm thấy overColumn (kéo vào column trống), thử tìm trực tiếp bằng columnId
+    if (!overColumn) {
+      overColumn = orderedColumns.find((col) => col._id === overCardId)
+    }
+
     if (!activeColumn || !overColumn) return
 
     if (activeColumn._id === overColumn._id) return
@@ -194,17 +206,21 @@ export default function BoardContent({ board }) {
       if (overId) {
         const checkColumn = orderedColumns.find((col) => col._id === overId)
         if (checkColumn) {
-          return closestCorners({
+          const childrenIds = checkColumn?.cardOrderIds || []
+          const closestId = closestCorners({
             ...args,
             droppableContainers: args.droppableContainers.filter(
               (container) => {
                 return (
-                  container.id !== overId &&
-                  checkColumn?.cardOrderIds?.includes(container.id)
+                  container.id !== overId && childrenIds.includes(container.id)
                 )
               }
             )
           })[0]?.id
+
+          // Nếu tìm được card gần nhất, trả về card đó
+          // Nếu không (column trống hoặc chỉ có placeholder), trả về overId (columnId)
+          overId = closestId || overId
         }
 
         lastOverId.current = overId
@@ -218,17 +234,10 @@ export default function BoardContent({ board }) {
   const handleDragEnd = (e) => {
     const { active, over } = e
     if (!active || !over) return
-    // const {
-    //   id: activeDraggingCardId,
-    //   data: { current: activeDraggingCardData }
-    // } = active
-    // const { id: overCardId } = over
 
     // Drag vào vùng ko hợp lệ => return
 
     if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
-      // console.log('Tạm thời chưa xử lý')
-
       const { active, over } = e
       if (!active || !over) return
       const {
@@ -239,7 +248,13 @@ export default function BoardContent({ board }) {
 
       // Find Card's column
       const activeColumn = findColumnByCardId(activeDraggingCardId)
-      const overColumn = findColumnByCardId(overCardId)
+      let overColumn = findColumnByCardId(overCardId)
+
+      // Nếu không tìm thấy overColumn (kéo vào column trống), thử tìm trực tiếp bằng columnId
+      if (!overColumn) {
+        overColumn = orderedColumns.find((col) => col._id === overCardId)
+      }
+
       if (!activeColumn || !overColumn) return
 
       if (oldColumnWhenDraggingCard._id !== overColumn._id) {
@@ -267,16 +282,23 @@ export default function BoardContent({ board }) {
           newCardIndex
         )
 
+        const dndOrderedCardIds = dndOrderedCards.map((c) => c._id)
+
         setOrderedColumns((prevColumns) => {
           const nextColumns = cloneDeep(prevColumns)
 
           const targetColumn = nextColumns.find((c) => c._id === overColumn._id)
 
           targetColumn.cards = dndOrderedCards
-          targetColumn.cardOrderIds = dndOrderedCards.map((c) => c._id)
+          targetColumn.cardOrderIds = dndOrderedCardIds
 
           return nextColumns
         })
+        moveCardFromTheSameColumn(
+          dndOrderedCardIds,
+          dndOrderedCards,
+          oldColumnWhenDraggingCard._id
+        )
       }
     }
 
@@ -297,9 +319,8 @@ export default function BoardContent({ board }) {
       )
       // swap thứ tự các icon
       const dndOrderedColumnIds = dndOrderedColumns.map((c) => c._id)
-      // console.log('dndOrderedColumns:', dndOrderedColumns)
-      // console.log('dndOrderedColumnIds:', dndOrderedColumnIds)
       setOrderedColumns(dndOrderedColumns)
+      moveColumns(dndOrderedColumnIds, dndOrderedColumns)
     }
 
     setActiveDragItemId(null)
@@ -337,7 +358,11 @@ export default function BoardContent({ board }) {
           p: '10px 0'
         }}
       >
-        <ListColumn columns={orderedColumns} />
+        <ListColumn
+          columns={orderedColumns}
+          createNewColumn={createNewColumn}
+          createNewCard={createNewCard}
+        />
         <DragOverlay dropAnimation={dropAnimation}>
           {!activeDragItemType && null}
           {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && (

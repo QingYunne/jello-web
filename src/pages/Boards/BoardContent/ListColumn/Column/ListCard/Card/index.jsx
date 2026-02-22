@@ -48,7 +48,7 @@ export default function Card({ card }) {
         overflow: card?.FE_PlaceholderCard ? 'none' : 'unset',
         // display: card?.FE_PlaceholderCard ? 'none' : 'block'
         opacity: card?.FE_PlaceholderCard ? 0 : 1,
-        height: card?.FE_PlaceholderCard ? '10px' : 'unset',
+        height: card?.FE_PlaceholderCard ? '15px' : 'unset',
         border: '1px solid transparent',
         '&:hover': { borderColor: (theme) => theme.palette.primary.main }
       }}
