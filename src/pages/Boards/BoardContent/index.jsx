@@ -30,7 +30,8 @@ export default function BoardContent({
   createNewCard,
   moveColumns,
   moveCardToTheSameColumn,
-  moveCardToDifferentColumn
+  moveCardToDifferentColumn,
+  deleteColumn
 }) {
   // const pointerSensor = useSensor(PointerSensor, {
   //   activationConstraint: { distance: 10 }
@@ -372,6 +373,7 @@ export default function BoardContent({
           columns={orderedColumns}
           createNewColumn={createNewColumn}
           createNewCard={createNewCard}
+          deleteColumn={deleteColumn}
         />
         <DragOverlay dropAnimation={dropAnimation}>
           {!activeDragItemType && null}

@@ -15,7 +15,8 @@ import Column from './Column'
 export default function ListColumn({
   columns,
   createNewColumn,
-  createNewCard
+  createNewCard,
+  deleteColumn
 }) {
   const [openCreateColumnForm, setOpenCreateColumnForm] = useState(false)
   const [newColumnTitle, setNewColumnTitle] = useState('')
@@ -57,6 +58,7 @@ export default function ListColumn({
             key={column._id}
             column={column}
             createNewCard={createNewCard}
+            deleteColumn={deleteColumn}
           />
         ))}
 
