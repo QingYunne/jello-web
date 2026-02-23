@@ -47,6 +47,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react-refresh", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:0.4.26"],\
           ["jello-web", "workspace:."],\
           ["lodash", "npm:4.17.23"],\
+          ["material-ui-confirm", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:3.0.18"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:18.3.1"],\
           ["react-toastify", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:9.1.3"],\
@@ -3988,6 +3989,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react-refresh", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:0.4.26"],\
           ["jello-web", "workspace:."],\
           ["lodash", "npm:4.17.23"],\
+          ["material-ui-confirm", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:3.0.18"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:18.3.1"],\
           ["react-toastify", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:9.1.3"],\
@@ -4203,6 +4205,36 @@ const RAW_RUNTIME_STATE =
           ["proc-log", "npm:6.1.0"],\
           ["promise-retry", "npm:2.0.1"],\
           ["ssri", "npm:13.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["material-ui-confirm", [\
+      ["npm:3.0.18", {\
+        "packageLocation": "../../../.yarn/berry/cache/material-ui-confirm-npm-3.0.18-2052a8e943-10c0.zip/node_modules/material-ui-confirm/",\
+        "packageDependencies": [\
+          ["material-ui-confirm", "npm:3.0.18"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:3.0.18", {\
+        "packageLocation": "./.yarn/__virtual__/material-ui-confirm-virtual-60792f7ac5/4/.yarn/berry/cache/material-ui-confirm-npm-3.0.18-2052a8e943-10c0.zip/node_modules/material-ui-confirm/",\
+        "packageDependencies": [\
+          ["@mui/material", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:5.18.0"],\
+          ["@types/mui__material", null],\
+          ["@types/react", "npm:18.3.28"],\
+          ["@types/react-dom", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:18.3.7"],\
+          ["material-ui-confirm", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:3.0.18"],\
+          ["react", "npm:18.3.1"],\
+          ["react-dom", "virtual:78ff6058b4631217b54058a94cb6a89d63a157ae3804db04a67162d5bdfec7b81ee7fbcac29661677962eff31a1b22b7e3c0f6f2cdf65d23f70a0eae09534058#npm:18.3.1"]\
+        ],\
+        "packagePeers": [\
+          "@mui/material",\
+          "@types/mui__material",\
+          "@types/react-dom",\
+          "@types/react",\
+          "react-dom",\
+          "react"\
         ],\
         "linkType": "HARD"\
       }]\

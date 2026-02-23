@@ -27,7 +27,9 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 
 import { toast } from 'react-toastify'
 
-export default function Column({ column, createNewCard }) {
+import { useConfirm } from 'material-ui-confirm'
+
+export default function Column({ column, createNewCard, deleteColumn }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => setAnchorEl(event.currentTarget)
@@ -66,6 +68,25 @@ export default function Column({ column, createNewCard }) {
     // HEIGHT 100% ĐỂ XỬ LÝ BUG KÉO COLUMN NGẮN SANG COLUMN DÀI
     height: '100%',
     opacity: isDragging ? 0.5 : undefined
+  }
+
+  const confirmDeleteColumn = useConfirm()
+
+  const handleDeleteColumn = () => {
+    confirmDeleteColumn({
+      title: 'Delete Column',
+      description:
+        'This action wil permanently delete your Column and its Cards! Are you sure?',
+      confirmationText: 'Confirm',
+      cancellationText: 'Cancel'
+
+      // description: `Enter 'delete' to confirm this action`,
+      // confirmationKeyword: 'delete'
+    })
+      .then(() => {
+        deleteColumn(column._id)
+      })
+      .catch(() => {})
   }
 
   const orderedCard = column?.cards
@@ -117,13 +138,22 @@ export default function Column({ column, createNewCard }) {
               anchorEl={anchorEl}
               open={open}
               onClose={handleClose}
+              onClick={handleClose}
               MenuListProps={{
                 'aria-labelledby': 'basic-button-column-dropdown'
               }}
             >
-              <MenuItem>
+              <MenuItem
+                sx={{
+                  '&:hover': {
+                    color: 'success.light',
+                    '& .add-card-icon': { color: 'success.light' }
+                  }
+                }}
+                onClick={toggleOpenCreateCardForm}
+              >
                 <ListItemIcon>
-                  <AddCardIcon fontSize="small" />
+                  <AddCardIcon className="add-card-icon" fontSize="small" />
                 </ListItemIcon>
                 <ListItemText>Add new card</ListItemText>
               </MenuItem>
@@ -152,8 +182,16 @@ export default function Column({ column, createNewCard }) {
                 </ListItemIcon>
                 <ListItemText>Archive this column</ListItemText>
               </MenuItem>
-              <MenuItem>
-                <ListItemIcon>
+              <MenuItem
+                sx={{
+                  '&:hover': {
+                    color: 'warning.dark',
+                    '& .delete-forever-icon': { color: 'inherit' }
+                  }
+                }}
+                onClick={handleDeleteColumn}
+              >
+                <ListItemIcon className="delete-forever-icon">
                   <DeleteForeverIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText>Remove this column</ListItemText>
