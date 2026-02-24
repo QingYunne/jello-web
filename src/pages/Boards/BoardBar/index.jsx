@@ -117,16 +117,16 @@ export default function BoardBar({ board }) {
           }}
         >
           <Tooltip>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            <Avatar alt="Remy Sharp" />
           </Tooltip>
           <Tooltip>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            <Avatar alt="Remy Sharp" />
           </Tooltip>
           <Tooltip>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            <Avatar alt="Remy Sharp" />
           </Tooltip>
           <Tooltip>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            <Avatar alt="Remy Sharp" />
           </Tooltip>
         </AvatarGroup>
       </Box>

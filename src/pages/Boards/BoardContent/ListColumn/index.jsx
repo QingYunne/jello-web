@@ -9,17 +9,22 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { cloneDeep, isEmpty } from 'lodash'
+import { createNewColumnAPI } from '~/apis'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  selectCurrentActiveBoard,
+  updateActiveBoard
+} from '~/redux/activeBoard/activeBoardSlice'
 
 import Column from './Column'
+import { generatePlaceholderCard } from '~/utils/formatter'
 
-export default function ListColumn({
-  columns,
-  createNewColumn,
-  createNewCard,
-  deleteColumn
-}) {
+export default function ListColumn({ columns, deleteColumn }) {
   const [openCreateColumnForm, setOpenCreateColumnForm] = useState(false)
   const [newColumnTitle, setNewColumnTitle] = useState('')
+  const dispatch = useDispatch()
+  const board = useSelector(selectCurrentActiveBoard)
   const toggleOpenCreateColumnForm = () =>
     setOpenCreateColumnForm(!openCreateColumnForm)
 
@@ -31,7 +36,24 @@ export default function ListColumn({
     const newColumnData = {
       title: newColumnTitle
     }
-    await createNewColumn(newColumnData)
+
+    //create new column and set board
+    const createdColumn = await createNewColumnAPI({
+      ...newColumnData,
+      boardId: board._id
+    })
+
+    if (isEmpty(createdColumn.cards)) {
+      const placeholderCard = generatePlaceholderCard(createdColumn)
+      createdColumn.cards = [placeholderCard]
+      createdColumn.cardOrderIds = [placeholderCard._id]
+    }
+
+    const newBoard = cloneDeep(board)
+    newBoard.columns.push(createdColumn)
+    newBoard.columnOrderIds.push(createdColumn._id)
+    dispatch(updateActiveBoard(newBoard))
+    // end
 
     toggleOpenCreateColumnForm()
     setNewColumnTitle('')
@@ -54,12 +76,7 @@ export default function ListColumn({
         }}
       >
         {columns?.map((column) => (
-          <Column
-            key={column._id}
-            column={column}
-            createNewCard={createNewCard}
-            deleteColumn={deleteColumn}
-          />
+          <Column key={column._id} column={column} />
         ))}
 
         {!openCreateColumnForm ? (

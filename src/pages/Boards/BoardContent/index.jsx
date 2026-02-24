@@ -8,13 +8,12 @@ import {
   useSensor,
   useSensors
 } from '@dnd-kit/core'
-import { MouseSensor, TouchSensor } from '~/customLibraries/DndKitSensors'
 import { arrayMove } from '@dnd-kit/sortable'
 import Box from '@mui/material/Box'
 import { cloneDeep, isEmpty } from 'lodash'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { MouseSensor, TouchSensor } from '~/customLibraries/DndKitSensors'
 import { generatePlaceholderCard } from '~/utils/formatter'
-import { mapOrder } from '~/utils/sorts'
 import ListColumn from './ListColumn'
 import Column from './ListColumn/Column'
 import Card from './ListColumn/Column/ListCard/Card'
@@ -26,12 +25,9 @@ const ACTIVE_DRAG_ITEM_TYPE = {
 
 export default function BoardContent({
   board,
-  createNewColumn,
-  createNewCard,
   moveColumns,
   moveCardToTheSameColumn,
-  moveCardToDifferentColumn,
-  deleteColumn
+  moveCardToDifferentColumn
 }) {
   // const pointerSensor = useSensor(PointerSensor, {
   //   activationConstraint: { distance: 10 }
@@ -369,12 +365,7 @@ export default function BoardContent({
           p: '10px 0'
         }}
       >
-        <ListColumn
-          columns={orderedColumns}
-          createNewColumn={createNewColumn}
-          createNewCard={createNewCard}
-          deleteColumn={deleteColumn}
-        />
+        <ListColumn columns={orderedColumns} />
         <DragOverlay dropAnimation={dropAnimation}>
           {!activeDragItemType && null}
           {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && (
