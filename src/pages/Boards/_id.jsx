@@ -1,83 +1,35 @@
 import Container from '@mui/material/Container'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import AppBar from '~/components/AppBar'
 import BoardBar from './BoardBar'
 import BoardContent from './BoardContent'
 // import { mockData } from '~/apis/mock-data'
-import { isEmpty } from 'lodash'
+import CircularProgress from '@mui/material/CircularProgress'
+import { cloneDeep } from 'lodash'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 import {
   createNewCardAPI,
-  createNewColumnAPI,
   deleteColumnAPI,
-  fetchBoardDetailsAPI,
+  // fetchBoardDetailsAPI,
   moveCardToDifferentColumnAPI,
   updateBoardDetailsAPI,
   updateColumnDetailsAPI
 } from '~/apis'
-import { generatePlaceholderCard } from '~/utils/formatter'
-import { mapOrder } from '~/utils/sorts'
-import CircularProgress from '@mui/material/CircularProgress'
-import { toast } from 'react-toastify'
+import {
+  fetchActiveBoardAPI,
+  selectCurrentActiveBoard,
+  updateActiveBoard
+} from '~/redux/activeBoard/activeBoardSlice'
 
 export default function Board() {
-  const [board, setBoard] = useState(null)
+  const dispatch = useDispatch()
+  const board = useSelector(selectCurrentActiveBoard)
 
   useEffect(() => {
     const boardId = '6993ebfbd3eba4705c10274c'
-    fetchBoardDetailsAPI(boardId).then((board) => {
-      board.columns = mapOrder(board?.columns, board?.columnOrderIds, '_id')
-      board.columns.forEach((col) => {
-        if (isEmpty(col.cards)) {
-          const placeholderCard = generatePlaceholderCard(col)
-          col.cards = [placeholderCard]
-          col.cardOrderIds = [placeholderCard._id]
-        } else {
-          col.cards = mapOrder(col.cards, col?.cardOrderIds, '_id')
-        }
-      })
-      setBoard(board)
-    })
-  }, [])
-
-  const createNewColumn = async (column) => {
-    const createdColumn = await createNewColumnAPI({
-      ...column,
-      boardId: board._id
-    })
-
-    if (isEmpty(createdColumn.cards)) {
-      const placeholderCard = generatePlaceholderCard(createdColumn)
-      createdColumn.cards = [placeholderCard]
-      createdColumn.cardOrderIds = [placeholderCard._id]
-    }
-
-    const newBoard = { ...board }
-    newBoard.columns.push(createdColumn)
-    newBoard.columnOrderIds.push(createdColumn._id)
-    setBoard(newBoard)
-  }
-
-  const createNewCard = async (card) => {
-    const createdCard = await createNewCardAPI({
-      ...card,
-      boardId: board._id
-    })
-
-    const newBoard = { ...board }
-    const foundColumn = newBoard.columns.find(
-      (col) => col._id === createdCard.columnId
-    )
-    if (foundColumn) {
-      if (foundColumn.cards.some((card) => card.FE_PlaceholderCard)) {
-        foundColumn.cards = [createdCard]
-        foundColumn.cardOrderIds = [createdCard._id]
-      } else {
-        foundColumn.cards.push(createdCard)
-        foundColumn.cardOrderIds.push(createdCard._id)
-      }
-      setBoard(newBoard)
-    }
-  }
+    dispatch(fetchActiveBoardAPI(boardId))
+  }, [dispatch])
 
   const moveColumns = async (dndOrderedColumnIds, dndOrderedColumns) => {
     const newBoard = { ...board }
@@ -86,7 +38,7 @@ export default function Board() {
     await updateBoardDetailsAPI(newBoard._id, {
       columnOrderIds: newBoard.columnOrderIds
     })
-    setBoard(newBoard)
+    dispatch(updateActiveBoard(newBoard))
   }
 
   const moveCardToTheSameColumn = async (
@@ -94,7 +46,7 @@ export default function Board() {
     dndOrderedCards,
     columnId
   ) => {
-    const newBoard = { ...board }
+    const newBoard = cloneDeep(board)
     const foundColumn = newBoard.columns.find((col) => col._id === columnId)
     if (foundColumn) {
       foundColumn.cardOrderIds = dndOrderedCardIds
@@ -102,7 +54,7 @@ export default function Board() {
       await updateColumnDetailsAPI(columnId, {
         cardOrderIds: foundColumn.cardOrderIds
       })
-      setBoard(newBoard)
+      dispatch(updateActiveBoard(newBoard))
     }
   }
 
@@ -129,19 +81,7 @@ export default function Board() {
         ?.cardOrderIds
     })
 
-    setBoard(newBoard)
-  }
-
-  const deleteColumn = async (columnId) => {
-    const newBoard = { ...board }
-    newBoard.columns = newBoard.columns.filter((col) => col._id !== columnId)
-    newBoard.columnOrderIds = newBoard.columnOrderIds.filter(
-      (id) => id !== columnId
-    )
-    deleteColumnAPI(columnId).then((res) => {
-      toast.success(res?.deleteResult)
-    })
-    setBoard(newBoard)
+    dispatch(updateActiveBoard(newBoard))
   }
 
   if (!board) {
@@ -169,12 +109,9 @@ export default function Board() {
         <BoardBar board={board} />
         <BoardContent
           board={board}
-          createNewColumn={createNewColumn}
-          createNewCard={createNewCard}
           moveColumns={moveColumns}
           moveCardToTheSameColumn={moveCardToTheSameColumn}
           moveCardToDifferentColumn={moveCardToDifferentColumn}
-          deleteColumn={deleteColumn}
         />
       </Container>
     </>

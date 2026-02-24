@@ -1,11 +1,11 @@
 import AddCardIcon from '@mui/icons-material/AddCard'
+import CloseIcon from '@mui/icons-material/Close'
 import Cloud from '@mui/icons-material/Cloud'
 import ContentCopy from '@mui/icons-material/ContentCopy'
 import ContentCut from '@mui/icons-material/ContentCut'
 import ContentPaste from '@mui/icons-material/ContentPaste'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import DragHandleIcon from '@mui/icons-material/DragHandle'
-import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
@@ -16,10 +16,15 @@ import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
+import { cloneDeep } from 'lodash'
 import { useState } from 'react'
-import { mapOrder } from '~/utils/sorts'
+import { useDispatch, useSelector } from 'react-redux'
+import { createNewCardAPI } from '~/apis'
+import {
+  selectCurrentActiveBoard,
+  updateActiveBoard
+} from '~/redux/activeBoard/activeBoardSlice'
 import ListCard from './ListCard'
-
 // import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -28,10 +33,13 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { toast } from 'react-toastify'
 
 import { useConfirm } from 'material-ui-confirm'
+import { deleteColumnAPI } from '~/apis'
 
-export default function Column({ column, createNewCard, deleteColumn }) {
+export default function Column({ column }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
+  const board = useSelector(selectCurrentActiveBoard)
+  const dispatch = useDispatch()
   const handleClick = (event) => setAnchorEl(event.currentTarget)
   const handleClose = () => setAnchorEl(null)
   const [openCreateCardForm, setOpenCreateCardForm] = useState(false)
@@ -46,7 +54,28 @@ export default function Column({ column, createNewCard, deleteColumn }) {
     }
 
     const newCardData = { title: newCardTitle, columnId: column._id }
-    await createNewCard(newCardData)
+    // await createNewCard(newCardData)
+    // create card and set board
+    const createdCard = await createNewCardAPI({
+      ...newCardData,
+      boardId: board._id
+    })
+
+    const newBoard = cloneDeep(board)
+    const foundColumn = newBoard.columns.find(
+      (col) => col._id === createdCard.columnId
+    )
+    if (foundColumn) {
+      if (foundColumn.cards.some((card) => card.FE_PlaceholderCard)) {
+        foundColumn.cards = [createdCard]
+        foundColumn.cardOrderIds = [createdCard._id]
+      } else {
+        foundColumn.cards.push(createdCard)
+        foundColumn.cardOrderIds.push(createdCard._id)
+      }
+      dispatch(updateActiveBoard(newBoard))
+    }
+    // end
     toggleOpenCreateCardForm()
     setNewCardTitle('')
   }
@@ -84,7 +113,20 @@ export default function Column({ column, createNewCard, deleteColumn }) {
       // confirmationKeyword: 'delete'
     })
       .then(() => {
-        deleteColumn(column._id)
+        // deleteColumn(column._id)
+        const columnId = column._id
+        // delete column and set board
+        const newBoard = cloneDeep(board)
+        newBoard.columns = newBoard.columns.filter(
+          (col) => col._id !== columnId
+        )
+        newBoard.columnOrderIds = newBoard.columnOrderIds.filter(
+          (id) => id !== columnId
+        )
+        deleteColumnAPI(columnId).then((res) => {
+          toast.success(res?.deleteResult)
+        })
+        dispatch(updateActiveBoard(newBoard))
       })
       .catch(() => {})
   }
