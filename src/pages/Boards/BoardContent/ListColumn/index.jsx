@@ -19,8 +19,9 @@ import {
 
 import Column from './Column'
 import { generatePlaceholderCard } from '~/utils/formatter'
+import { INTERCEPTOR_LOADING_CLASSNAME } from '~/utils/constants'
 
-export default function ListColumn({ columns, deleteColumn }) {
+export default function ListColumn({ columns }) {
   const [openCreateColumnForm, setOpenCreateColumnForm] = useState(false)
   const [newColumnTitle, setNewColumnTitle] = useState('')
   const dispatch = useDispatch()
@@ -153,6 +154,7 @@ export default function ListColumn({ columns, deleteColumn }) {
               }}
             >
               <Button
+                className={INTERCEPTOR_LOADING_CLASSNAME}
                 onClick={createColumn}
                 variant="contained"
                 color="success"

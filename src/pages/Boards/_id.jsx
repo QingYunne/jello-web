@@ -3,14 +3,15 @@ import { useEffect } from 'react'
 import AppBar from '~/components/AppBar'
 import BoardBar from './BoardBar'
 import BoardContent from './BoardContent'
+import Box from '@mui/material/Box'
+
 // import { mockData } from '~/apis/mock-data'
 import CircularProgress from '@mui/material/CircularProgress'
+import Typography from '@mui/material/Typography'
 import { cloneDeep } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
+import { useParams } from 'react-router-dom'
 import {
-  createNewCardAPI,
-  deleteColumnAPI,
   // fetchBoardDetailsAPI,
   moveCardToDifferentColumnAPI,
   updateBoardDetailsAPI,
@@ -21,13 +22,15 @@ import {
   selectCurrentActiveBoard,
   updateActiveBoard
 } from '~/redux/activeBoard/activeBoardSlice'
+import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
 
 export default function Board() {
   const dispatch = useDispatch()
   const board = useSelector(selectCurrentActiveBoard)
+  const { boardId } = useParams()
 
   useEffect(() => {
-    const boardId = '6993ebfbd3eba4705c10274c'
+    // const boardId = '6993ebfbd3eba4705c10274c'
     dispatch(fetchActiveBoardAPI(boardId))
   }, [dispatch])
 
@@ -85,21 +88,7 @@ export default function Board() {
   }
 
   if (!board) {
-    return (
-      <Container
-        sx={{
-          height: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          bgcolor: (theme) =>
-            theme.palette.mode === 'dark' ? '#34495e' : '#1976d2',
-          margin: 0
-        }}
-      >
-        <CircularProgress /> {/* @mui/material */}
-      </Container>
-    )
+    return <PageLoadingSpinner caption={'Loading Boards...'} />
   }
 
   return (
