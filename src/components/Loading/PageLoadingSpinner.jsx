@@ -14,9 +14,10 @@ export default function PageLoadingSpinner({ caption }) {
         width: '100vw'
       }}
     >
-      <CircularProgress>
-        <Typography>{caption}</Typography>
-      </CircularProgress>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+        <CircularProgress />
+        {caption && <Typography>{caption}</Typography>}
+      </Box>
     </Box>
   )
 }

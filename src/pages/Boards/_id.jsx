@@ -3,11 +3,8 @@ import { useEffect } from 'react'
 import AppBar from '~/components/AppBar'
 import BoardBar from './BoardBar'
 import BoardContent from './BoardContent'
-import Box from '@mui/material/Box'
 
 // import { mockData } from '~/apis/mock-data'
-import CircularProgress from '@mui/material/CircularProgress'
-import Typography from '@mui/material/Typography'
 import { cloneDeep } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -17,12 +14,12 @@ import {
   updateBoardDetailsAPI,
   updateColumnDetailsAPI
 } from '~/apis'
+import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
 import {
   fetchActiveBoardAPI,
   selectCurrentActiveBoard,
   updateActiveBoard
 } from '~/redux/activeBoard/activeBoardSlice'
-import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
 
 export default function Board() {
   const dispatch = useDispatch()
