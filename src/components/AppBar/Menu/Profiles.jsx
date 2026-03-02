@@ -9,16 +9,35 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Tooltip from '@mui/material/Tooltip'
+import { useConfirm } from 'material-ui-confirm'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { logoutUserAPI, selectCurrentUser } from '~/redux/user/userSlice'
 
 export default function Profiles() {
+  const currentUser = useSelector(selectCurrentUser)
+
   const [anchorEl, setAnchorEl] = useState(null)
+  const dispatch = useDispatch()
+  const confirmLogout = useConfirm()
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
     setAnchorEl(null)
+  }
+
+  const handleLogout = () => {
+    confirmLogout({
+      title: 'Log out of your account',
+      confirmationText: 'Confirm',
+      cancellationText: 'Cancel'
+    })
+      .then(() => {
+        dispatch(logoutUserAPI())
+      })
+      .catch(() => {})
   }
 
   return (
@@ -33,7 +52,10 @@ export default function Profiles() {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
         >
-          <Avatar sx={{ width: 36, height: 36 }}>M</Avatar>
+          <Avatar
+            sx={{ width: 36, height: 36 }}
+            src={currentUser?.avatar}
+          ></Avatar>
         </IconButton>
       </Tooltip>
       <Menu
@@ -44,12 +66,14 @@ export default function Profiles() {
         MenuListProps={{
           'aria-labelledby': 'basic-button-profiles'
         }}
+        onClick={handleClose}
       >
-        <MenuItem>
-          <Avatar sx={{ width: 28, height: 28, mr: 2 }} /> Profile
-        </MenuItem>
-        <MenuItem>
-          <Avatar sx={{ width: 28, height: 28, mr: 2 }} /> My account
+        <MenuItem sx={{ '&:hover': { color: 'success.light' } }}>
+          <Avatar
+            sx={{ width: 28, height: 28, mr: 2 }}
+            src={currentUser?.avatar}
+          />{' '}
+          Profile
         </MenuItem>
         <Divider />
         <MenuItem>
@@ -64,9 +88,17 @@ export default function Profiles() {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem>
+        <MenuItem
+          onClick={handleLogout}
+          sx={{
+            '&:hover': {
+              color: 'warning.dark',
+              '& .logout-icon': { color: 'warning.dark' }
+            }
+          }}
+        >
           <ListItemIcon>
-            <Logout fontSize="small" />
+            <Logout className="logout-icon" fontSize="small" />
           </ListItemIcon>
           Logout
         </MenuItem>

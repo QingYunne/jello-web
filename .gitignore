@@ -31,3 +31,4 @@ dist-ssr
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+.yarn/install-state.gz
