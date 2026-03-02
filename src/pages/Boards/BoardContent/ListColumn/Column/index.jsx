@@ -19,7 +19,7 @@ import Typography from '@mui/material/Typography'
 import { cloneDeep } from 'lodash'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createNewCardAPI } from '~/apis'
+import { createNewCardAPI, deleteColumnAPI } from '~/apis'
 import {
   selectCurrentActiveBoard,
   updateActiveBoard
@@ -33,7 +33,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { toast } from 'react-toastify'
 
 import { useConfirm } from 'material-ui-confirm'
-import { deleteColumnAPI } from '~/apis'
+import { INTERCEPTOR_LOADING_CLASSNAME } from '~/utils/constants'
 
 export default function Column({ column }) {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -334,6 +334,7 @@ export default function Column({ column }) {
                       bgcolor: (theme) => theme.palette.success.main
                     }
                   }}
+                  className={INTERCEPTOR_LOADING_CLASSNAME}
                 >
                   Add
                 </Button>
