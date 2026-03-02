@@ -14,6 +14,9 @@ import { persistStore } from 'redux-persist'
 
 import { store } from './redux/store'
 import { BrowserRouter } from 'react-router-dom'
+import { injectStore } from './utils/authorizeAxios'
+
+injectStore(store)
 
 const persistor = persistStore(store)
 
