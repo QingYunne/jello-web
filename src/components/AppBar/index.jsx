@@ -22,6 +22,7 @@ import Starred from './Menu/Starred'
 import Templates from './Menu/Templates'
 import Workspaces from './Menu/Workspaces'
 import Profiles from './Menu/Profiles'
+import { Link } from 'react-router-dom'
 
 export default function AppBar() {
   const [searchValue, setSearchValue] = useState('')
@@ -53,22 +54,24 @@ export default function AppBar() {
             color: 'white'
           }}
         />
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <SvgIcon
-            component={TrelloLogo}
-            inheritViewBox
-            sx={{ color: 'white' }}
-          />
-          <Typography
-            sx={{
-              fontSize: '1.2rem',
-              fontWeight: 'bold',
-              color: 'white'
-            }}
-          >
-            Trello
-          </Typography>
-        </Box>
+        <Link to="/">
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <SvgIcon
+              component={TrelloLogo}
+              inheritViewBox
+              sx={{ color: 'white' }}
+            />
+            <Typography
+              sx={{
+                fontSize: '1.2rem',
+                fontWeight: 'bold',
+                color: 'white'
+              }}
+            >
+              Trello
+            </Typography>
+          </Box>
+        </Link>
         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
           <Workspaces />
           <Recent />

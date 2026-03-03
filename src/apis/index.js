@@ -1,10 +1,7 @@
 // import axios from 'axios'
-import axios from '~/utils/authorizeAxios'
-import { API_ROOT, API_VERSION } from '~/utils/constants'
 import { toast } from 'react-toastify'
-import theme from '~/theme'
-
-const API_BASE_URL = `${API_ROOT}/${API_VERSION}`
+import axios from '~/utils/authorizeAxios'
+import { API_BASE_URL } from '~/utils/constants'
 
 export const fetchBoardDetailsAPI = async (boardId) => {
   const response = await axios.get(`${API_BASE_URL}/boards/${boardId}`)

@@ -1,10 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 // import axios from 'axios'
-import axios from '~/utils/authorizeAxios'
-import { API_ROOT, API_VERSION } from '~/utils/constants'
 import { toast } from 'react-toastify'
-
-const API_BASE_URL = `${API_ROOT}/${API_VERSION}`
+import axios from '~/utils/authorizeAxios'
+import { API_BASE_URL } from '~/utils/constants'
 
 const initialState = {
   currentUser: null
@@ -27,6 +25,14 @@ export const logoutUserAPI = createAsyncThunk(
   }
 )
 
+export const updateUserAPI = createAsyncThunk(
+  'user/updateUserAPI',
+  async (data) => {
+    const response = await axios.patch(`${API_BASE_URL}/users`, data)
+    return response
+  }
+)
+
 // Initial slice in redux store
 export const userSlice = createSlice({
   name: 'user',
@@ -36,6 +42,9 @@ export const userSlice = createSlice({
     builder.addCase(loginUserAPI.fulfilled, (state, action) => {
       const user = action.payload
       state.currentUser = user
+    })
+    builder.addCase(updateUserAPI.fulfilled, (state, action) => {
+      state.currentUser = action.payload
     })
     builder.addCase(logoutUserAPI.fulfilled, (state, action) => {
       state.currentUser = null
