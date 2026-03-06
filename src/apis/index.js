@@ -8,6 +8,11 @@ export const fetchBoardDetailsAPI = async (boardId) => {
   return response
 }
 
+export const fetchBoardsAPI = async (searchQuery) => {
+  const response = await axios.get(`${API_BASE_URL}/boards${searchQuery}`)
+  return response
+}
+
 export const updateBoardDetailsAPI = async (boardId, updateData) => {
   const response = await axios.patch(
     `${API_BASE_URL}/boards/${boardId}`,

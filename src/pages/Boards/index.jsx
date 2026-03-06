@@ -21,6 +21,8 @@ import { Link, useLocation } from 'react-router-dom'
 import SidebarCreateBoardModal from './create'
 
 import { styled } from '@mui/material/styles'
+import { fetchBoardsAPI } from '~/apis'
+import { DEFAULT_PAGE } from '~/utils/constants'
 const SidebarItem = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -56,15 +58,11 @@ function Boards() {
   const page = parseInt(query.get('page') || '1', 10)
 
   useEffect(() => {
-    // Fake tạm 16 cái item thay cho boards
-    // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-    setBoards([...Array(16)].map((_, i) => i))
-    // Fake tạm giả sử trong Database trả về có tổng 100 bản ghi boards
-    setTotalBoards(100)
-
-    // Gọi API lấy danh sách boards ở đây...
-    // ...
-  }, [])
+    fetchBoardsAPI(location.search).then((res) => {
+      setBoards(res.boards || [])
+      setTotalBoards(res.total || 0)
+    })
+  }, [location.search])
 
   // Lúc chưa tồn tại boards > đang chờ gọi api thì hiện loading
   if (!boards) {
@@ -93,7 +91,7 @@ function Boards() {
             </Stack>
             <Divider sx={{ my: 1 }} />
             <Stack direction="column" spacing={1}>
-                 <SidebarCreateBoardModal />
+              <SidebarCreateBoardModal />
             </Stack>
           </Grid>
 
@@ -113,7 +111,7 @@ function Boards() {
             {boards?.length > 0 && (
               <Grid container spacing={2}>
                 {boards.map((b) => (
-                  <Grid xs={2} sm={3} md={4} key={b}>
+                  <Grid xs={2} sm={3} md={4} key={b._id}>
                     <Card sx={{ width: '250px' }}>
                       {/* Ý tưởng mở rộng về sau làm ảnh Cover cho board nhé */}
                       {/* <CardMedia component="img" height="100" image="https://picsum.photos/100" /> */}
@@ -123,7 +121,7 @@ function Boards() {
 
                       <CardContent sx={{ p: 1.5, '&:last-child': { p: 1.5 } }}>
                         <Typography gutterBottom variant="h6" component="div">
-                          Board title
+                          {b?.title}
                         </Typography>
                         <Typography
                           variant="body2"
@@ -134,13 +132,11 @@ function Boards() {
                             textOverflow: 'ellipsis'
                           }}
                         >
-                          This impressive paella is a perfect party dish and a
-                          fun meal to cook together with your guests. Add 1 cup
-                          of frozen peas along with the mussels, if you like.
+                          {b?.description}
                         </Typography>
                         <Box
                           component={Link}
-                          to={'/boards/6534e1b8a235025a66b644a5'}
+                          to={`/boards/${b._id}`}
                           sx={{
                             mt: 1,
                             display: 'flex',
@@ -183,7 +179,7 @@ function Boards() {
                   renderItem={(item) => (
                     <PaginationItem
                       component={Link}
-                      to={`/boards${item.page === 1 ? '' : `?page=${item.page}`}`}
+                      to={`/boards${item.page === DEFAULT_PAGE ? '' : `?page=${item.page}`}`}
                       {...item}
                     />
                   )}
