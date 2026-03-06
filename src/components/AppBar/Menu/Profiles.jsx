@@ -55,7 +55,7 @@ export default function Profiles() {
         >
           <Avatar
             sx={{ width: 36, height: 36 }}
-            src={currentUser?.avatar}
+            src={currentUser?.avatarUrls.small}
           ></Avatar>
         </IconButton>
       </Tooltip>
