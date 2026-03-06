@@ -57,14 +57,17 @@ function Boards() {
    */
   const page = parseInt(query.get('page') || '1', 10)
 
-  useEffect(() => {
+  const renderBoards = () => {
     fetchBoardsAPI(location.search).then((res) => {
       setBoards(res.boards || [])
       setTotalBoards(res.total || 0)
     })
+  }
+
+  useEffect(() => {
+    renderBoards()
   }, [location.search])
 
-  // Lúc chưa tồn tại boards > đang chờ gọi api thì hiện loading
   if (!boards) {
     return <PageLoadingSpinner caption="Loading Boards..." />
   }
@@ -91,7 +94,7 @@ function Boards() {
             </Stack>
             <Divider sx={{ my: 1 }} />
             <Stack direction="column" spacing={1}>
-              <SidebarCreateBoardModal />
+              <SidebarCreateBoardModal afterCreateNewBoard={renderBoards} />
             </Stack>
           </Grid>
 

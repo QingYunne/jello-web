@@ -13,6 +13,12 @@ export const fetchBoardsAPI = async (searchQuery) => {
   return response
 }
 
+export const createNewBoardAPI = async (board) => {
+  const response = await axios.post(`${API_BASE_URL}/boards`, board)
+  toast.success('Board created successfully!')
+  return response
+}
+
 export const updateBoardDetailsAPI = async (boardId, updateData) => {
   const response = await axios.patch(
     `${API_BASE_URL}/boards/${boardId}`,
