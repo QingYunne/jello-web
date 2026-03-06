@@ -1,13 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 // import axios from 'axios'
-import axios from '~/utils/authorizeAxios'
-import { API_ROOT, API_VERSION } from '~/utils/constants'
-import { mapOrder } from '~/utils/sorts'
 import { isEmpty } from 'lodash'
+import axios from '~/utils/authorizeAxios'
+import { API_BASE_URL } from '~/utils/constants'
 import { generatePlaceholderCard } from '~/utils/formatter'
-
-const API_BASE_URL = `${API_ROOT}/${API_VERSION}`
+import { mapOrder } from '~/utils/sorts'
 
 const initialState = {
   currentActiveBoard: null

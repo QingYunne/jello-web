@@ -43,7 +43,10 @@ function LoginForm() {
         pending: 'Logging in....'
       })
       .then((res) => {
-        if (!res?.error) navigate('/')
+        if (!res?.error) {
+          navigate('/')
+          toast.success('Login successfully!')
+        }
       })
   }
   return (
