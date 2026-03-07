@@ -17,20 +17,10 @@ import { toast } from 'react-toastify'
 import { FIELD_REQUIRED_MESSAGE, singleFileValidator } from '~/utils/validators'
 import FieldErrorAlert from '~/components/Form/FieldErrorAlert'
 import { selectCurrentUser, updateUserAPI } from '~/redux/user/userSlice'
+import VisuallyHiddenInput from '~/components/Form/VisuallyHiddenInput'
 
 // https://mui.com/material-ui/react-button/#file-upload
 // https://github.com/viclafouch/mui-file-input
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
-  height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  whiteSpace: 'nowrap',
-  width: 1
-})
 
 function AccountTab() {
   const currentUser = useSelector(selectCurrentUser)

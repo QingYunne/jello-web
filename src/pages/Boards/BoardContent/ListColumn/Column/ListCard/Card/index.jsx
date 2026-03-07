@@ -9,8 +9,12 @@ import CommentIcon from '@mui/icons-material/Comment'
 import GroupIcon from '@mui/icons-material/Group'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { useDispatch } from 'react-redux'
+
+import { updateActiveCard } from '~/redux/activeCard/activeCardSlice'
 
 export default function Card({ card }) {
+  const dispatch = useDispatch()
   const { title, memberIds, comments, attachments } = card || {}
 
   const actionsItems = [
@@ -36,6 +40,10 @@ export default function Card({ card }) {
     border: isDragging ? '1px solid #2ecc71' : undefined
   }
 
+  const setActiveCard = (card) => {
+    dispatch(updateActiveCard(card))
+  }
+
   return (
     <MuiCard
       ref={setNodeRef}
@@ -52,6 +60,7 @@ export default function Card({ card }) {
         border: '1px solid transparent',
         '&:hover': { borderColor: (theme) => theme.palette.primary.main }
       }}
+      onClick={() => setActiveCard(card)}
     >
       {card?.cover && <CardMedia sx={{ height: 140 }} image={card.cover} />}
       <CardContent sx={{ p: 1.5, '&:last-child': { p: 1.5 } }}>

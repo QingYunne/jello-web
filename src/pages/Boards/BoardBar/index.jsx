@@ -11,6 +11,7 @@ import BoltIcon from '@mui/icons-material/Bolt'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { capitalizeFirstLetter } from '~/utils/formatter'
+import BoardUserGroup from './BoardUserGroup'
 
 const MENU_STYLE = {
   color: 'white',
@@ -104,7 +105,7 @@ export default function BoardBar({ board }) {
         >
           Invite
         </Button>
-        <AvatarGroup
+        {/* <AvatarGroup
           max={7}
           sx={{
             gap: '10px',
@@ -128,7 +129,8 @@ export default function BoardBar({ board }) {
           <Tooltip>
             <Avatar alt="Remy Sharp" />
           </Tooltip>
-        </AvatarGroup>
+        </AvatarGroup> */}
+        <BoardUserGroup />
       </Box>
     </Box>
   )

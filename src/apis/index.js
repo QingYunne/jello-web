@@ -53,6 +53,14 @@ export const createNewCardAPI = async (card) => {
   return response
 }
 
+export const updateCardDetailsAPI = async (cardId, updateData) => {
+  const response = await axios.patch(
+    `${API_BASE_URL}/cards/${cardId}`,
+    updateData
+  )
+  return response
+}
+
 export const deleteColumnAPI = async (columnId) => {
   const response = await axios.delete(`${API_BASE_URL}/columns/${columnId}`)
   return response
