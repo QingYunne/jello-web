@@ -9,7 +9,6 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 
 function CardUserGroup({ cardMemberIds = [] }) {
   /**
-   * Xử lý Popover để ẩn hoặc hiện toàn bộ user trên một cái popup, tương tự docs để tham khảo ở đây:
    * https://mui.com/material-ui/react-popover/
    */
   const [anchorPopoverElement, setAnchorPopoverElement] = useState(null)
@@ -19,8 +18,6 @@ function CardUserGroup({ cardMemberIds = [] }) {
     if (!anchorPopoverElement) setAnchorPopoverElement(event.currentTarget)
     else setAnchorPopoverElement(null)
   }
-
-  // Lưu ý ở đây chúng ta không dùng Component AvatarGroup của MUI bởi nó không hỗ trợ tốt trong việc chúng ta cần custom & trigger xử lý phần tử tính toán cuối, đơn giản là cứ dùng Box và CSS - Style đám Avatar cho chuẩn kết hợp tính toán một chút thôi.
   return (
     <Box sx={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
       {/* Hiển thị các user là thành viên của card */}

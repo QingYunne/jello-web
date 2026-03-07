@@ -61,6 +61,14 @@ export const updateCardDetailsAPI = async (cardId, updateData) => {
   return response
 }
 
+export const uploadCardCoverAPI = async (cardId, coverFile) => {
+  const response = await axios.put(
+    `${API_BASE_URL}/cards/${cardId}/cover`,
+    coverFile
+  )
+  return response
+}
+
 export const deleteColumnAPI = async (columnId) => {
   const response = await axios.delete(`${API_BASE_URL}/columns/${columnId}`)
   return response

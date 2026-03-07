@@ -73,7 +73,7 @@ export default function Profiles() {
           <MenuItem sx={{ '&:hover': { color: 'success.light' } }}>
             <Avatar
               sx={{ width: 28, height: 28, mr: 2 }}
-              src={currentUser?.avatar}
+              src={currentUser?.avatarUrl?.small}
             />
             Profile
           </MenuItem>

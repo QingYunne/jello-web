@@ -14,8 +14,8 @@ function CardActivitySection() {
   const handleAddCardComment = (event) => {
     // Bắt hành động người dùng nhấn phím Enter && không phải hành động Shift + Enter
     if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault() 
-      if (!event.target?.value) return 
+      event.preventDefault()
+      if (!event.target?.value) return
 
       // Tạo một biến commend data để gửi api
       const commentToAdd = {
@@ -33,8 +33,8 @@ function CardActivitySection() {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
         <Avatar
           sx={{ width: 36, height: 36, cursor: 'pointer' }}
-          alt="trungquandev"
-          src={currentUser?.avatar}
+          alt="avatar"
+          src={currentUser?.avatarUrls?.small}
         />
         <TextField
           fullWidth
@@ -47,11 +47,23 @@ function CardActivitySection() {
       </Box>
 
       {/* Hiển thị danh sách các comments */}
-      {[...Array(0)].length === 0 &&
-        <Typography sx={{ pl: '45px', fontSize: '14px', fontWeight: '500', color: '#b1b1b1' }}>No activity found!</Typography>
-      }
-      {[...Array(6)].map((_, index) =>
-        <Box sx={{ display: 'flex', gap: 1, width: '100%', mb: 1.5 }} key={index}>
+      {[...Array(0)].length === 0 && (
+        <Typography
+          sx={{
+            pl: '45px',
+            fontSize: '14px',
+            fontWeight: '500',
+            color: '#b1b1b1'
+          }}
+        >
+          No activity found!
+        </Typography>
+      )}
+      {[...Array(6)].map((_, index) => (
+        <Box
+          sx={{ display: 'flex', gap: 1, width: '100%', mb: 1.5 }}
+          key={index}
+        >
           <Tooltip title="trungquandev">
             <Avatar
               sx={{ width: 36, height: 36, cursor: 'pointer' }}
@@ -68,21 +80,24 @@ function CardActivitySection() {
               {moment().format('llll')}
             </Typography>
 
-            <Box sx={{
-              display: 'block',
-              bgcolor: (theme) => theme.palette.mode === 'dark' ? '#33485D' : 'white',
-              p: '8px 12px',
-              mt: '4px',
-              border: '0.5px solid rgba(0, 0, 0, 0.2)',
-              borderRadius: '4px',
-              wordBreak: 'break-word',
-              boxShadow: '0 0 1px rgba(0, 0, 0, 0.2)'
-            }}>
+            <Box
+              sx={{
+                display: 'block',
+                bgcolor: (theme) =>
+                  theme.palette.mode === 'dark' ? '#33485D' : 'white',
+                p: '8px 12px',
+                mt: '4px',
+                border: '0.5px solid rgba(0, 0, 0, 0.2)',
+                borderRadius: '4px',
+                wordBreak: 'break-word',
+                boxShadow: '0 0 1px rgba(0, 0, 0, 0.2)'
+              }}
+            >
               This is a comment!
             </Box>
           </Box>
         </Box>
-      )}
+      ))}
     </Box>
   )
 }

@@ -32,6 +32,7 @@ import {
   selectCurrentActiveCard,
   updateActiveCard
 } from '~/redux/activeCard/activeCardSlice'
+import { updateCardInBoard } from '~/redux/activeBoard/activeBoardSlice'
 
 import { toast } from 'react-toastify'
 import ToggleFocusInput from '~/components/Form/ToggleFocusInput'
@@ -40,7 +41,7 @@ import { singleFileValidator } from '~/utils/validators'
 import CardActivitySection from './CardActivitySection'
 import CardDescriptionMdEditor from './CardDescriptionMdEditor'
 import CardUserGroup from './CardUserGroup'
-import { updateCardDetailsAPI } from '~/apis'
+import { updateCardDetailsAPI, uploadCardCoverAPI } from '~/apis'
 
 const SidebarItem = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -73,14 +74,23 @@ function ActiveCard() {
     dispatch(clearActiveCard())
   }
 
-  const callAPIUpdateCard = async (updateData) => {
-    const updatedCard = await updateCardDetailsAPI(card._id, updateData)
-    dispatch(updateActiveCard(updatedCard))
-    return updatedCard
+  const updateDataActiveCard = (updatedData) => {
+    dispatch(updateActiveCard(updatedData))
+    dispatch(updateCardInBoard(updatedData))
   }
 
-  const onUpdateCardTitle = (newTitle) => {
-    callAPIUpdateCard({ title: newTitle.trim() })
+  const onUpdateCardTitle = async (newTitle) => {
+    const updatedData = await updateCardDetailsAPI(card._id, {
+      title: newTitle.trim()
+    })
+    updateDataActiveCard(updatedData)
+  }
+
+  const onUpdateCardDescription = async (newDescription) => {
+    const updatedData = await updateCardDetailsAPI(card._id, {
+      description: newDescription
+    })
+    updateDataActiveCard(updatedData)
   }
 
   const onUploadCardCover = (event) => {
@@ -91,9 +101,17 @@ function ActiveCard() {
       return
     }
     let reqData = new FormData()
-    reqData.append('cardCover', event.target?.files[0])
-
-    // Gọi API...
+    reqData.append('card_cover', event.target?.files[0])
+    toast.promise(
+      uploadCardCoverAPI(card._id, reqData)
+        .then((res) => updateDataActiveCard(res))
+        .finally(() => {
+          event.target.value = ''
+        }),
+      {
+        pending: 'Uploading....'
+      }
+    )
   }
 
   return (
@@ -143,7 +161,7 @@ function ActiveCard() {
                 borderRadius: '6px',
                 objectFit: 'cover'
               }}
-              src={card?.cover}
+              src={card?.coverUrls.large}
               alt="card-cover"
             />
           </Box>
@@ -195,7 +213,10 @@ function ActiveCard() {
               </Box>
 
               {/* Feature 03: Xử lý mô tả của Card */}
-              <CardDescriptionMdEditor />
+              <CardDescriptionMdEditor
+                cardDescriptionProp={card?.description}
+                handleUpdateCardDescription={onUpdateCardDescription}
+              />
             </Box>
 
             <Box sx={{ mb: 3 }}>

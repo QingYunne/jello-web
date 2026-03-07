@@ -28,6 +28,20 @@ export const activeBoardSlice = createSlice({
       const fullBoard = action.payload
 
       state.currentActiveBoard = fullBoard
+    },
+    updateCardInBoard: (state, action) => {
+      const incomingCard = action.payload
+      const column = state.currentActiveBoard.columns.find(
+        (col) => col._id === incomingCard.columnId
+      )
+      if (column) {
+        const cardIndex = column.cards.findIndex(
+          (card) => card._id === incomingCard._id
+        )
+        if (cardIndex !== -1) {
+          column.cards[cardIndex] = incomingCard
+        }
+      }
     }
   },
   // extraReducers are the place where handle asynchronous actions, they will update the state in store
@@ -35,6 +49,8 @@ export const activeBoardSlice = createSlice({
     builder.addCase(fetchActiveBoardAPI.fulfilled, (state, action) => {
       // action.payload is response.data from API call
       let board = action.payload
+
+      board.FE_allUsers = board.owners.concat(board.members)
 
       board.columns = mapOrder(board?.columns, board?.columnOrderIds, '_id')
       board.columns.forEach((col) => {
@@ -53,7 +69,7 @@ export const activeBoardSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { updateActiveBoard } = activeBoardSlice.actions
+export const { updateActiveBoard, updateCardInBoard } = activeBoardSlice.actions
 
 export const selectCurrentActiveBoard = (state) => {
   return state.activeBoard.currentActiveBoard

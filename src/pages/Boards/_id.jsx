@@ -22,6 +22,7 @@ import {
 } from '~/redux/activeBoard/activeBoardSlice'
 import ActiveCard from '~/components/Modal/ActiveCard'
 import { selectCurrentActiveCard } from '~/redux/activeCard/activeCardSlice'
+import { mockData } from '~/apis/mock-data'
 
 export default function Board() {
   const dispatch = useDispatch()
@@ -94,7 +95,8 @@ export default function Board() {
   return (
     <>
       <Container disableGutters maxWidth="false" sx={{ height: '100vh' }}>
-        {activeCard && <ActiveCard />}
+        {Boolean(activeCard) && <ActiveCard />}
+        {/* <ActiveCard /> */}
         <AppBar />
         <BoardBar board={board} />
         <BoardContent

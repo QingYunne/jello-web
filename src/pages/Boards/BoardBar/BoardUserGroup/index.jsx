@@ -4,7 +4,7 @@ import Avatar from '@mui/material/Avatar'
 import Tooltip from '@mui/material/Tooltip'
 import Popover from '@mui/material/Popover'
 
-function BoardUserGroup({ boardUsers = [], limit = 8 }) {
+function BoardUserGroup({ boardUsers = [], limit = 4 }) {
   /**
    * https://mui.com/material-ui/react-popover/
    */
@@ -19,14 +19,14 @@ function BoardUserGroup({ boardUsers = [], limit = 8 }) {
   return (
     <Box sx={{ display: 'flex', gap: '4px' }}>
       {/* Hiển thị giới hạn số lượng user theo số limit */}
-      {[...Array(16)].map((_, index) => {
+      {boardUsers.map((user, index) => {
         if (index < limit) {
           return (
-            <Tooltip title="avatar" key={index}>
+            <Tooltip title={user?.displayName} key={index}>
               <Avatar
                 sx={{ width: 34, height: 34, cursor: 'pointer' }}
                 alt="avatar"
-                src="https://trungquandev.com/wp-content/uploads/2019/06/trungquandev-cat-avatar.png"
+                src={user?.avatarUrls?.small}
               />
             </Tooltip>
           )
@@ -34,7 +34,7 @@ function BoardUserGroup({ boardUsers = [], limit = 8 }) {
       })}
 
       {/* Nếu số lượng users nhiều hơn limit thì hiện thêm +number */}
-      {[...Array(16)].length > limit && (
+      {boardUsers.length > limit && (
         <Tooltip title="Show more">
           <Box
             aria-describedby={popoverId}
@@ -53,7 +53,7 @@ function BoardUserGroup({ boardUsers = [], limit = 8 }) {
               backgroundColor: '#a4b0be'
             }}
           >
-            +{[...Array(16)].length - limit}
+            +{boardUsers.length - limit}
           </Box>
         </Tooltip>
       )}

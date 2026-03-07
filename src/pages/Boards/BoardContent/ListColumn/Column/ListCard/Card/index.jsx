@@ -62,7 +62,9 @@ export default function Card({ card }) {
       }}
       onClick={() => setActiveCard(card)}
     >
-      {card?.cover && <CardMedia sx={{ height: 140 }} image={card.cover} />}
+      {card?.cover && (
+        <CardMedia sx={{ height: 140 }} image={card?.coverUrls?.large} />
+      )}
       <CardContent sx={{ p: 1.5, '&:last-child': { p: 1.5 } }}>
         <Typography>{title ? title : 'untitled'}</Typography>
       </CardContent>

@@ -17,9 +17,8 @@ function ToggleFocusInput({
       return
     }
 
-    console.log('value: ', value)
-    console.log('inputValue: ', inputValue)
-    // Khi giá trị có thay đổi ok thì gọi lên func ở Props cha để xử lý
+    // console.log('value: ', value)
+    // console.log('inputValue: ', inputValue)
     onChangedValue(inputValue)
   }
 
@@ -35,7 +34,6 @@ function ToggleFocusInput({
       }}
       onBlur={triggerBlur}
       {...props}
-      // Magic here :D
       sx={{
         '& label': {},
         '& input': { fontSize: inputFontSize, fontWeight: 'bold' },
