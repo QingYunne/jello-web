@@ -6,7 +6,8 @@ import { generatePlaceholderCard } from '~/utils/formatter'
 import { mapOrder } from '~/utils/sorts'
 
 const initialState = {
-  currentActiveCard: null
+  currentActiveCard: null,
+  isShowModalActiveCard: false
 }
 
 // Initial slice in redux store
@@ -14,8 +15,12 @@ export const activeCardSlice = createSlice({
   name: 'activeCard',
   initialState,
   reducers: {
-    clearActiveCard: (state, action) => {
+    showModalActiveCard: (state, action) => {
+      state.isShowModalActiveCard = true
+    },
+    clearAndHideActiveCard: (state, action) => {
       state.currentActiveCard = null
+      state.isShowModalActiveCard = false
     },
     updateActiveCard: (state, action) => {
       state.currentActiveCard = action.payload
@@ -25,10 +30,14 @@ export const activeCardSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { updateActiveCard, clearActiveCard } = activeCardSlice.actions
+export const { updateActiveCard, clearAndHideActiveCard, showModalActiveCard } =
+  activeCardSlice.actions
 
 export const selectCurrentActiveCard = (state) => {
   return state.activeCard.currentActiveCard
+}
+export const selectIsShowModalActiveCard = (state) => {
+  return state.activeCard.isShowModalActiveCard
 }
 
 export default activeCardSlice.reducer

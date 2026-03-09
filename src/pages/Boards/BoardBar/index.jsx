@@ -10,6 +10,7 @@ import Chip from '@mui/material/Chip'
 import Tooltip from '@mui/material/Tooltip'
 import { capitalizeFirstLetter } from '~/utils/formatter'
 import BoardUserGroup from './BoardUserGroup'
+import InviteBoardUser from './InviteBoardUser'
 
 const MENU_STYLE = {
   color: 'white',
@@ -90,7 +91,9 @@ export default function BoardBar({ board }) {
           gap: 2
         }}
       >
-        <Button
+        <InviteBoardUser boardId={board._id} />
+        <BoardUserGroup boardUsers={board?.FE_allUsers} />
+        {/* <Button
           variant="outlined"
           startIcon={<PersonAddIcon />}
           sx={{
@@ -102,7 +105,7 @@ export default function BoardBar({ board }) {
           }}
         >
           Invite
-        </Button>
+        </Button> */}
         {/* <AvatarGroup
           max={7}
           sx={{
@@ -128,7 +131,6 @@ export default function BoardBar({ board }) {
             <Avatar alt="Remy Sharp" />
           </Tooltip>
         </AvatarGroup> */}
-        <BoardUserGroup boardUsers={board?.FE_allUsers} />
       </Box>
     </Box>
   )

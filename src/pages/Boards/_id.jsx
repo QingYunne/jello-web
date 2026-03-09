@@ -15,19 +15,18 @@ import {
   updateColumnDetailsAPI
 } from '~/apis'
 import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
+import ActiveCard from '~/components/Modal/ActiveCard'
 import {
   fetchActiveBoardAPI,
   selectCurrentActiveBoard,
   updateActiveBoard
 } from '~/redux/activeBoard/activeBoardSlice'
-import ActiveCard from '~/components/Modal/ActiveCard'
-import { selectCurrentActiveCard } from '~/redux/activeCard/activeCardSlice'
-import { mockData } from '~/apis/mock-data'
+import { selectIsShowModalActiveCard } from '~/redux/activeCard/activeCardSlice'
 
 export default function Board() {
   const dispatch = useDispatch()
   const board = useSelector(selectCurrentActiveBoard)
-  const activeCard = useSelector(selectCurrentActiveCard)
+  const isShowingActiveCard = useSelector(selectIsShowModalActiveCard)
   const { boardId } = useParams()
 
   useEffect(() => {
@@ -95,7 +94,7 @@ export default function Board() {
   return (
     <>
       <Container disableGutters maxWidth="false" sx={{ height: '100vh' }}>
-        {Boolean(activeCard) && <ActiveCard />}
+        {isShowingActiveCard && <ActiveCard />}
         {/* <ActiveCard /> */}
         <AppBar />
         <BoardBar board={board} />

@@ -24,24 +24,28 @@ import Stack from '@mui/material/Stack'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Unstable_Grid2'
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { updateCardInBoard } from '~/redux/activeBoard/activeBoardSlice'
 import {
-  clearActiveCard,
+  clearAndHideActiveCard,
   selectCurrentActiveCard,
+  selectIsShowModalActiveCard,
   updateActiveCard
 } from '~/redux/activeCard/activeCardSlice'
-import { updateCardInBoard } from '~/redux/activeBoard/activeBoardSlice'
 
 import { toast } from 'react-toastify'
+import {
+  addCommentToCardAPI,
+  updateCardDetailsAPI,
+  uploadCardCoverAPI
+} from '~/apis'
 import ToggleFocusInput from '~/components/Form/ToggleFocusInput'
 import VisuallyHiddenInput from '~/components/Form/VisuallyHiddenInput'
 import { singleFileValidator } from '~/utils/validators'
 import CardActivitySection from './CardActivitySection'
 import CardDescriptionMdEditor from './CardDescriptionMdEditor'
 import CardUserGroup from './CardUserGroup'
-import { updateCardDetailsAPI, uploadCardCoverAPI } from '~/apis'
 
 const SidebarItem = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -66,12 +70,13 @@ const SidebarItem = styled(Box)(({ theme }) => ({
 
 function ActiveCard() {
   const card = useSelector(selectCurrentActiveCard)
+  const showingActiveCard = useSelector(selectIsShowModalActiveCard)
   const dispatch = useDispatch()
   // const [isOpen, setIsOpen] = useState(true)
   // const handleOpenModal = () => setIsOpen(true)
   const handleCloseModal = () => {
     // setIsOpen(false)
-    dispatch(clearActiveCard())
+    dispatch(clearAndHideActiveCard())
   }
 
   const updateDataActiveCard = (updatedData) => {
@@ -94,7 +99,6 @@ function ActiveCard() {
   }
 
   const onUploadCardCover = (event) => {
-    console.log(event.target?.files[0])
     const error = singleFileValidator(event.target?.files[0])
     if (error) {
       toast.error(error)
@@ -114,11 +118,16 @@ function ActiveCard() {
     )
   }
 
+  const onAddCardComment = async (commentToAdd) => {
+    const updatedData = await addCommentToCardAPI(card._id, { commentToAdd })
+    updateDataActiveCard(updatedData)
+  }
+
   return (
     <Modal
       disableScrollLock
-      open={true}
-      // onClose={handleCloseModal}
+      open={showingActiveCard}
+      onClose={handleCloseModal}
       sx={{ overflowY: 'auto' }}
     >
       <Box
@@ -161,7 +170,7 @@ function ActiveCard() {
                 borderRadius: '6px',
                 objectFit: 'cover'
               }}
-              src={card?.coverUrls.large}
+              src={card?.coverUrls?.large}
               alt="card-cover"
             />
           </Box>
@@ -231,7 +240,10 @@ function ActiveCard() {
               </Box>
 
               {/* Feature 04: Xử lý các hành động, ví dụ comment vào Card */}
-              <CardActivitySection />
+              <CardActivitySection
+                cardComments={card?.comments}
+                onAddCardComment={onAddCardComment}
+              />
             </Box>
           </Grid>
 
