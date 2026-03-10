@@ -14,6 +14,7 @@ import {
 } from '~/utils/validators'
 import FieldErrorAlert from '~/components/Form/FieldErrorAlert'
 import { inviteUserToBoardAPI } from '~/apis'
+import { socketIo } from '~/socket-client'
 
 function InviteBoardUser({ boardId }) {
   /**
@@ -35,13 +36,14 @@ function InviteBoardUser({ boardId }) {
   } = useForm()
   const submitInviteUserToBoard = (data) => {
     const { inviteeEmail } = data
-    console.log('inviteeEmail:', inviteeEmail)
 
-    inviteUserToBoardAPI({ inviteeEmail, boardId }).then(() => {})
+    inviteUserToBoardAPI({ inviteeEmail, boardId }).then((invitation) => {
+      setValue('inviteeEmail', null)
+      setAnchorPopoverElement(null)
+      socketIo.emit('FE_USER_INVITED_TO_BOARD', invitation)
+    })
 
     // Clear thẻ input sử dụng react-hook-form bằng setValue
-    setValue('inviteeEmail', null)
-    setAnchorPopoverElement(null)
   }
 
   return (

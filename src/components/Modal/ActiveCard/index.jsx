@@ -38,6 +38,7 @@ import { toast } from 'react-toastify'
 import {
   addCommentToCardAPI,
   updateCardDetailsAPI,
+  updateCardMembersAPI,
   uploadCardCoverAPI
 } from '~/apis'
 import ToggleFocusInput from '~/components/Form/ToggleFocusInput'
@@ -46,6 +47,8 @@ import { singleFileValidator } from '~/utils/validators'
 import CardActivitySection from './CardActivitySection'
 import CardDescriptionMdEditor from './CardDescriptionMdEditor'
 import CardUserGroup from './CardUserGroup'
+import { selectCurrentUser } from '~/redux/user/userSlice'
+import { CARD_MEMBER_ACTIONS } from '~/utils/constants'
 
 const SidebarItem = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -70,6 +73,7 @@ const SidebarItem = styled(Box)(({ theme }) => ({
 
 function ActiveCard() {
   const card = useSelector(selectCurrentActiveCard)
+  const user = useSelector(selectCurrentUser)
   const showingActiveCard = useSelector(selectIsShowModalActiveCard)
   const dispatch = useDispatch()
   // const [isOpen, setIsOpen] = useState(true)
@@ -120,6 +124,11 @@ function ActiveCard() {
 
   const onAddCardComment = async (commentToAdd) => {
     const updatedData = await addCommentToCardAPI(card._id, { commentToAdd })
+    updateDataActiveCard(updatedData)
+  }
+
+  const onUpdateCardMembers = async (memberInfo) => {
+    const updatedData = await updateCardMembersAPI(card._id, memberInfo)
     updateDataActiveCard(updatedData)
   }
 
@@ -207,7 +216,10 @@ function ActiveCard() {
               </Typography>
 
               {/* Feature 02: Xử lý các thành viên của Card */}
-              <CardUserGroup />
+              <CardUserGroup
+                cardMemberIds={card?.memberIds}
+                onUpdateCardMembers={onUpdateCardMembers}
+              />
             </Box>
 
             <Box sx={{ mb: 3 }}>
@@ -256,10 +268,20 @@ function ActiveCard() {
             </Typography>
             <Stack direction="column" spacing={1}>
               {/* Feature 05: Xử lý hành động bản thân user tự join vào card */}
-              <SidebarItem className="active">
-                <PersonOutlineOutlinedIcon fontSize="small" />
-                Join
-              </SidebarItem>
+              {!card?.memberIds?.includes(user._id) && (
+                <SidebarItem
+                  className="active"
+                  onClick={() => {
+                    onUpdateCardMembers({
+                      userId: user._id,
+                      action: CARD_MEMBER_ACTIONS.ADD
+                    })
+                  }}
+                >
+                  <PersonOutlineOutlinedIcon fontSize="small" />
+                  Join
+                </SidebarItem>
+              )}
               {/* Feature 06: Xử lý hành động cập nhật ảnh Cover của Card */}
               <SidebarItem className="active" component="label">
                 <ImageOutlinedIcon fontSize="small" />

@@ -77,6 +77,14 @@ export const addCommentToCardAPI = async (cardId, updateData) => {
   return response
 }
 
+export const updateCardMembersAPI = async (cardId, data) => {
+  const response = await axios.patch(
+    `${API_BASE_URL}/cards/${cardId}/member`,
+    data
+  )
+  return response
+}
+
 export const deleteColumnAPI = async (columnId) => {
   const response = await axios.delete(`${API_BASE_URL}/columns/${columnId}`)
   return response

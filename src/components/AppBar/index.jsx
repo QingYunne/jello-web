@@ -24,6 +24,7 @@ import Templates from './Menu/Templates'
 import Workspaces from './Menu/Workspaces'
 import Profiles from './Menu/Profiles'
 import Notifications from './Notifications'
+import AutoCompleteSearchBoard from './SearchBoards/AutoCompleteSearchBoard'
 
 export default function AppBar() {
   const [searchValue, setSearchValue] = useState('')
@@ -101,7 +102,8 @@ export default function AppBar() {
           gap: 2
         }}
       >
-        <TextField
+        <AutoCompleteSearchBoard />
+        {/* <TextField
           id="outlined-search"
           label="Search"
           type="search"
@@ -144,7 +146,7 @@ export default function AppBar() {
               }
             }
           }}
-        />
+        /> */}
         <ModeSelect />
         <Notifications />
         {/* <Tooltip title="Notification">
