@@ -1,28 +1,24 @@
-import { useState } from 'react'
 import AppsIcon from '@mui/icons-material/Apps'
-import Badge from '@mui/material/Badge'
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import SvgIcon from '@mui/material/SvgIcon'
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
-import InputAdornment from '@mui/material/InputAdornment'
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
-import SearchIcon from '@mui/icons-material/Search'
-import CloseIcon from '@mui/icons-material/Close'
+import Typography from '@mui/material/Typography'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { ReactComponent as TrelloLogo } from '~/assets/trello.svg'
 
 import ModeSelect from '~/components/ModeSelect'
+import Profiles from './Menu/Profiles'
 import Recent from './Menu/Recent'
 import Starred from './Menu/Starred'
 import Templates from './Menu/Templates'
 import Workspaces from './Menu/Workspaces'
-import Profiles from './Menu/Profiles'
-import { Link } from 'react-router-dom'
+import Notifications from './Notifications'
+import AutoCompleteSearchBoard from './SearchBoards/AutoCompleteSearchBoard'
 
 export default function AppBar() {
   const [searchValue, setSearchValue] = useState('')
@@ -100,7 +96,8 @@ export default function AppBar() {
           gap: 2
         }}
       >
-        <TextField
+        <AutoCompleteSearchBoard />
+        {/* <TextField
           id="outlined-search"
           label="Search"
           type="search"
@@ -143,13 +140,14 @@ export default function AppBar() {
               }
             }
           }}
-        />
+        /> */}
         <ModeSelect />
-        <Tooltip title="Notification">
+        <Notifications />
+        {/* <Tooltip title="Notification">
           <Badge color="warning" variant="dot" sx={{ cursor: 'pointer' }}>
             <NotificationsNoneIcon sx={{ color: 'white' }} />
           </Badge>
-        </Tooltip>
+        </Tooltip> */}
         <Tooltip title="Help">
           <HelpOutlineIcon sx={{ color: 'white', cursor: 'pointer' }} />
         </Tooltip>

@@ -19,7 +19,12 @@ import Typography from '@mui/material/Typography'
 import { cloneDeep } from 'lodash'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createNewCardAPI, deleteColumnAPI } from '~/apis'
+import {
+  createNewCardAPI,
+  deleteColumnAPI,
+  updateBoardDetailsAPI,
+  updateColumnDetailsAPI
+} from '~/apis'
 import {
   selectCurrentActiveBoard,
   updateActiveBoard
@@ -34,6 +39,7 @@ import { toast } from 'react-toastify'
 
 import { useConfirm } from 'material-ui-confirm'
 import { INTERCEPTOR_LOADING_CLASSNAME } from '~/utils/constants'
+import ToggleFocusInput from '~/components/Form/ToggleFocusInput'
 
 export default function Column({ column }) {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -78,6 +84,17 @@ export default function Column({ column }) {
     // end
     toggleOpenCreateCardForm()
     setNewCardTitle('')
+  }
+
+  const handleUpdateColumnTitle = (title) => {
+    updateColumnDetailsAPI(column._id, { title }).then((res) => {
+      const newBoard = cloneDeep(board)
+      let columnToUpdate = newBoard.columns.find((col) => col._id === res._id)
+      if (columnToUpdate) {
+        columnToUpdate = res
+      }
+      dispatch(updateActiveBoard(newBoard))
+    })
   }
 
   const {
@@ -159,12 +176,17 @@ export default function Column({ column }) {
             justifyContent: 'space-between'
           }}
         >
-          <Typography
+          {/* <Typography
             variant="h6"
             sx={{ fontWeight: 'bold', cursor: 'pointer', fontSize: '1rem' }}
           >
             {column?.title ? column.title : 'untitled'}
-          </Typography>
+          </Typography> */}
+          <ToggleFocusInput
+            value={column?.title}
+            onChangedValue={handleUpdateColumnTitle}
+            data-no-dnd="true"
+          />
           <Box>
             <Tooltip title="More options">
               <MoreHorizIcon

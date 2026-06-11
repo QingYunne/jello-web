@@ -1,16 +1,16 @@
-import DashboardIcon from '@mui/icons-material/Dashboard'
-import Box from '@mui/material/Box'
-import Chip from '@mui/material/Chip'
-import Avatar from '@mui/material/Avatar'
-import AvatarGroup from '@mui/material/AvatarGroup'
-import Tooltip from '@mui/material/Tooltip'
-import Button from '@mui/material/Button'
-import VpnLockIcon from '@mui/icons-material/VpnLock'
 import AddToDriveIcon from '@mui/icons-material/AddToDrive'
 import BoltIcon from '@mui/icons-material/Bolt'
+import DashboardIcon from '@mui/icons-material/Dashboard'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import VpnLockIcon from '@mui/icons-material/VpnLock'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Chip from '@mui/material/Chip'
+import Tooltip from '@mui/material/Tooltip'
 import { capitalizeFirstLetter } from '~/utils/formatter'
+import BoardUserGroup from './BoardUserGroup'
+import InviteBoardUser from './InviteBoardUser'
 
 const MENU_STYLE = {
   color: 'white',
@@ -91,7 +91,9 @@ export default function BoardBar({ board }) {
           gap: 2
         }}
       >
-        <Button
+        <InviteBoardUser boardId={board._id} />
+        <BoardUserGroup boardUsers={board?.FE_allUsers} />
+        {/* <Button
           variant="outlined"
           startIcon={<PersonAddIcon />}
           sx={{
@@ -103,8 +105,8 @@ export default function BoardBar({ board }) {
           }}
         >
           Invite
-        </Button>
-        <AvatarGroup
+        </Button> */}
+        {/* <AvatarGroup
           max={7}
           sx={{
             gap: '10px',
@@ -128,7 +130,7 @@ export default function BoardBar({ board }) {
           <Tooltip>
             <Avatar alt="Remy Sharp" />
           </Tooltip>
-        </AvatarGroup>
+        </AvatarGroup> */}
       </Box>
     </Box>
   )

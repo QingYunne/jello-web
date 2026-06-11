@@ -55,7 +55,7 @@ export default function Profiles() {
         >
           <Avatar
             sx={{ width: 36, height: 36 }}
-            src={currentUser?.avatarUrls.small}
+            src={currentUser?.avatarUrls?.small || ''}
           ></Avatar>
         </IconButton>
       </Tooltip>
@@ -73,7 +73,7 @@ export default function Profiles() {
           <MenuItem sx={{ '&:hover': { color: 'success.light' } }}>
             <Avatar
               sx={{ width: 28, height: 28, mr: 2 }}
-              src={currentUser?.avatar}
+              src={currentUser?.avatarUrls?.small || ''}
             />
             Profile
           </MenuItem>

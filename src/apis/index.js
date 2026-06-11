@@ -8,6 +8,17 @@ export const fetchBoardDetailsAPI = async (boardId) => {
   return response
 }
 
+export const fetchBoardsAPI = async (searchQuery) => {
+  const response = await axios.get(`${API_BASE_URL}/boards${searchQuery}`)
+  return response
+}
+
+export const createNewBoardAPI = async (board) => {
+  const response = await axios.post(`${API_BASE_URL}/boards`, board)
+  toast.success('Board created successfully!')
+  return response
+}
+
 export const updateBoardDetailsAPI = async (boardId, updateData) => {
   const response = await axios.patch(
     `${API_BASE_URL}/boards/${boardId}`,
@@ -42,6 +53,38 @@ export const createNewCardAPI = async (card) => {
   return response
 }
 
+export const updateCardDetailsAPI = async (cardId, updateData) => {
+  const response = await axios.patch(
+    `${API_BASE_URL}/cards/${cardId}`,
+    updateData
+  )
+  return response
+}
+
+export const uploadCardCoverAPI = async (cardId, coverFile) => {
+  const response = await axios.put(
+    `${API_BASE_URL}/cards/${cardId}/cover`,
+    coverFile
+  )
+  return response
+}
+
+export const addCommentToCardAPI = async (cardId, updateData) => {
+  const response = await axios.patch(
+    `${API_BASE_URL}/cards/${cardId}/comment`,
+    updateData
+  )
+  return response
+}
+
+export const updateCardMembersAPI = async (cardId, data) => {
+  const response = await axios.patch(
+    `${API_BASE_URL}/cards/${cardId}/member`,
+    data
+  )
+  return response
+}
+
 export const deleteColumnAPI = async (columnId) => {
   const response = await axios.delete(`${API_BASE_URL}/columns/${columnId}`)
   return response
@@ -65,5 +108,11 @@ export const verifyUserAPI = async (data) => {
 
 export const refreshTokenAPI = async () => {
   const response = await axios.get(`${API_BASE_URL}/users/refresh_token`)
+  return response
+}
+
+export const inviteUserToBoardAPI = async (data) => {
+  const response = await axios.post(`${API_BASE_URL}/invitations/board`, data)
+  toast.success('User invited to board successfully!')
   return response
 }

@@ -30,6 +30,7 @@ let refreshTokenPromise = null
 
 authorizeAxiosInstance.interceptors.response.use(
   (response) => {
+    interceptorLoadingElements(false)
     return response.data
   },
   (error) => {
