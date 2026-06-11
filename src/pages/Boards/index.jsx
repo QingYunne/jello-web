@@ -47,7 +47,6 @@ function Boards() {
 
   const location = useLocation()
   /**
-   * Parse chuỗi string search trong location về đối tượng URLSearchParams trong JavaScript
    * https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/URLSearchParams
    */
   const query = new URLSearchParams(location.search)

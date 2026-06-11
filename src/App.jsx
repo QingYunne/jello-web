@@ -20,7 +20,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route />
+        {/* <Route /> */}
         <Route path="/" element={<Navigate to="/boards" replace={true} />} />
         {/* Protected Route */}
         <Route element={<ProtectedRoute user={currentUser} />}>
