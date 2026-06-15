@@ -202,6 +202,11 @@ src/
 <img width="299" height="212" alt="Ảnh chụp màn hình 2026-06-11 154152" src="https://github.com/user-attachments/assets/b0cc4a7f-9c77-413d-9d66-14f59762e937" />
 <img width="385" height="219" alt="Ảnh chụp màn hình 2026-06-11 154207" src="https://github.com/user-attachments/assets/9a9cc7ec-ae0f-48fc-99f6-d7afa2306ef7" />
 
+## Profile
+<img width="1278" height="658" alt="image" src="https://github.com/user-attachments/assets/bced6bf6-b14f-4b98-ba36-4e7aa93b992c" />
+
+<img width="1268" height="648" alt="image" src="https://github.com/user-attachments/assets/9f9538fe-9ca4-4a19-bb2f-98091f038d9e" />
+
 ---
 
 ## 🙋 Author
