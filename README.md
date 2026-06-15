@@ -172,19 +172,33 @@ src/
 ---
 
 ## Demo images
+
 ### Login
+
 <img width="1265" height="683" alt="image" src="https://github.com/user-attachments/assets/c26fceeb-c3c5-4535-ba58-d5a2bda46449" />
+
 ### Sign up
+
 <img width="1267" height="689" alt="image" src="https://github.com/user-attachments/assets/e3656f0c-b49e-4be2-88d5-863b929de45d" />
+
 ### Boards
+
 <img width="1268" height="701" alt="image" src="https://github.com/user-attachments/assets/f1c502f2-b7ae-4513-82f0-4e5f800a41a5" />
+
 ### Board
+
 <img width="1271" height="697" alt="image" src="https://github.com/user-attachments/assets/c0a45b06-968c-438e-bb1f-e22832bae590" />
+
 ### Card
+
 <img width="1274" height="679" alt="Ảnh chụp màn hình 2026-06-11 154247" src="https://github.com/user-attachments/assets/8cb5f057-bf23-45e5-8c7d-d0444f7c049f" />
+
 ### Comments
+
 <img width="544" height="260" alt="Ảnh chụp màn hình 2026-06-11 154925" src="https://github.com/user-attachments/assets/16f59b9d-c1ae-471f-8371-c76c3d909e50" />
+
 ### Invitation
+
 <img width="299" height="212" alt="Ảnh chụp màn hình 2026-06-11 154152" src="https://github.com/user-attachments/assets/b0cc4a7f-9c77-413d-9d66-14f59762e937" />
 <img width="385" height="219" alt="Ảnh chụp màn hình 2026-06-11 154207" src="https://github.com/user-attachments/assets/9a9cc7ec-ae0f-48fc-99f6-d7afa2306ef7" />
 
