@@ -64,7 +64,7 @@ export default function AppBar() {
                 color: 'white'
               }}
             >
-              Trello
+              Jello
             </Typography>
           </Box>
         </Link>
